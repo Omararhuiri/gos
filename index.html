@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LUXEBAG – Bolsos de Lujo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0A0A0A;--white:#fff;--red:#C8102E;
+  --bg:#F7F7F7;--border:#E2E2E2;--gray:#888;--gray-light:#F5F5F5;
+  --green:#16a34a;
+  --font-d:'Cormorant Garamond',serif;
+  --font:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--black);background:var(--white);overflow-x:hidden}
+.page{display:none}.page.active{display:block}
+
+/* TOPBAR */
+.topbar{background:var(--black);color:#fff;text-align:center;font-size:11px;letter-spacing:.1em;padding:8px 16px}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--border)}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--font-d);font-weight:300;font-size:26px;letter-spacing:.18em;text-decoration:none;color:var(--black);cursor:pointer}
+.header-icons{display:flex;gap:20px;align-items:center}
+.header-icons button{background:none;border:none;cursor:pointer;padding:4px;position:relative}
+.header-icons svg{width:20px;height:20px;stroke:var(--black);fill:none;stroke-width:1.6;display:block}
+.cart-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600}
+
+/* NAV */
+nav{border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;overflow-x:auto}
+nav button{padding:12px 16px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--black);white-space:nowrap;cursor:pointer;background:none;border:none;font-family:var(--font);transition:color .2s}
+nav button:hover{color:var(--red)}
+nav button.sale{color:var(--red);font-weight:500}
+
+/* HERO */
+.hero{position:relative;height:500px;overflow:hidden;background:#1a1a1a}
+.hero-slides{display:flex;height:100%;transition:transform .7s cubic-bezier(.77,0,.18,1)}
+.hero-slide{min-width:100%;position:relative;display:flex;align-items:center;justify-content:center}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.04);transition:transform 8s ease}
+.hero-slide.active .hero-bg{transform:scale(1)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.42),rgba(0,0,0,.1))}
+.hero-content{position:relative;z-index:2;text-align:center;color:#fff}
+.hero-eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;margin-bottom:10px;opacity:.85}
+.hero-title{font-family:var(--font-d);font-size:78px;font-weight:300;line-height:1;margin-bottom:10px}
+.hero-sub{font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:.9}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.15);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .2s}
+.hero-arrow:hover{background:rgba(255,255,255,.3)}
+.hero-arrow.prev{left:18px}.hero-arrow.next{right:18px}
+.hero-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
+.hdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .2s}
+.hdot.active{background:#fff;transform:scale(1.3)}
+
+/* INTRO */
+.intro{text-align:center;padding:52px 20px 44px;max-width:620px;margin:0 auto}
+.intro h2{font-family:var(--font-d);font-size:30px;font-weight:400;margin-bottom:12px}
+.intro p{font-size:13px;color:var(--gray);line-height:1.8;font-weight:300}
+
+/* BRANDS */
+.brands-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 20px}
+.brands-label{text-align:center;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gray);margin-bottom:22px}
+.brands-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:28px 44px}
+.brand-nm{font-family:var(--font-d);font-size:19px;letter-spacing:.14em;color:var(--gray);text-transform:uppercase;cursor:pointer;transition:color .2s}
+.brand-nm:hover{color:var(--black)}
+
+/* COLLECTION */
+.collection{max-width:1280px;margin:0 auto;padding:44px 24px 52px}
+.col-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.col-title{font-family:var(--font-d);font-size:22px;font-weight:400;letter-spacing:.04em}
+.see-all{font-size:10px;letter-spacing:.16em;text-transform:uppercase;text-decoration:underline;color:var(--black);cursor:pointer;display:inline-block;margin-bottom:22px;background:none;border:none;font-family:var(--font)}
+.products-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+@media(max-width:1100px){.products-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.products-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+.pcard{cursor:pointer}
+.pcard-img{position:relative;background:var(--gray-light);aspect-ratio:3/4;overflow:hidden;margin-bottom:10px}
+.pcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block}
+.pcard:hover .pcard-img img{transform:scale(1.05)}
+.pbadge{position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;font-weight:500}
+.pbadge.new{background:var(--black);color:#fff}.pbadge.sale{background:var(--red);color:#fff}
+.pcard-brand{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:3px}
+.pcard-name{font-size:12px;font-weight:400;letter-spacing:.03em;margin-bottom:5px}
+.pcard-price{font-size:12.5px}
+.orig{text-decoration:line-through;color:var(--gray);margin-right:5px;font-size:11px}
+.off{color:var(--red);font-weight:500}
+.empty-grid{grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--gray)}
+.empty-grid .eicon{font-size:44px;margin-bottom:14px;display:block}
+.empty-grid p{font-size:13px;line-height:1.7;margin-bottom:16px}
+.empty-grid a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--black);text-decoration:underline}
+
+/* DETAIL */
+.detail-wrap{max-width:1100px;margin:0 auto;padding:44px 24px 64px;display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+@media(max-width:700px){.detail-wrap{grid-template-columns:1fr;gap:28px}}
+.detail-img{aspect-ratio:3/4;background:var(--gray-light);overflow:hidden}
+.detail-img img{width:100%;height:100%;object-fit:cover;display:block}
+.detail-back{font-size:11px;color:var(--gray);margin-bottom:14px;cursor:pointer;background:none;border:none;font-family:var(--font);padding:0}
+.detail-back:hover{color:var(--black)}
+.detail-brand{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);margin-bottom:8px}
+.detail-name{font-family:var(--font-d);font-size:38px;font-weight:400;line-height:1.1;margin-bottom:18px}
+.detail-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:24px}
+.detail-price{font-size:22px}.detail-price-orig{font-size:16px;text-decoration:line-through;color:var(--gray)}
+.detail-price-off{font-size:13px;color:var(--red);letter-spacing:.08em}
+.detail-desc{font-size:13px;color:var(--gray);line-height:1.8;margin-bottom:28px;font-weight:300}
+.add-btn{width:100%;padding:15px;background:var(--black);color:#fff;border:none;font-family:var(--font);font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:opacity .2s;margin-bottom:12px}
+.add-btn:hover{opacity:.82}.add-btn.added{background:var(--green)}
+.wish-btn{width:100%;padding:13px;background:transparent;color:var(--black);border:1px solid var(--border);font-family:var(--font);font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:border-color .2s}
+.wish-btn:hover{border-color:var(--black)}
+.detail-meta{margin-top:24px;border-top:1px solid var(--border);padding-top:20px}
+.detail-meta p{font-size:12px;color:var(--gray);margin-bottom:8px;line-height:1.6}
+
+/* CART DRAWER */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;right:0;top:0;bottom:0;width:420px;max-width:100vw;background:#fff;z-index:401;transform:translateX(100%);transition:transform .35s cubic-bezier(.77,0,.18,1);display:flex;flex-direction:column}
+.cart-drawer.open{transform:translateX(0)}
+.cart-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cart-head h3{font-family:var(--font-d);font-size:22px;font-weight:400}
+.cart-close{background:none;border:none;cursor:pointer;font-size:24px;color:var(--black)}
+.cart-items{flex:1;overflow-y:auto;padding:20px 24px}
+.cart-empty{text-align:center;padding:60px 20px;color:var(--gray)}
+.cart-empty .icon{font-size:42px;margin-bottom:14px;display:block}
+.cart-item{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:start;padding:16px 0;border-bottom:1px solid var(--border)}
+.cart-item:last-child{border-bottom:none}
+.ci-img{width:72px;height:90px;object-fit:cover;background:var(--gray-light);display:block}
+.ci-name{font-size:13px;font-weight:500;margin-bottom:3px}
+.ci-brand{font-size:10px;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.qty-row{display:flex;align-items:center;gap:8px}
+.qty-btn{width:24px;height:24px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{background:var(--gray-light)}
+.qty-n{font-size:13px;min-width:18px;text-align:center}
+.ci-price{font-size:13px;font-weight:500;white-space:nowrap}
+.ci-remove{background:none;border:none;cursor:pointer;color:var(--gray);font-size:20px;line-height:1}
+.ci-remove:hover{color:var(--red)}
+.cart-foot{padding:20px 24px;border-top:1px solid var(--border)}
+.cart-sub{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.cart-sub span{font-size:13px}.cart-sub strong{font-size:18px;font-family:var(--font-d)}
+.cart-ship{font-size:11px;color:var(--green);margin-bottom:16px}
+.checkout-btn{width:100%;padding:15px;background:var(--black);color:#fff;border:none;font-family:var(--font);font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;margin-bottom:10px;transition:opacity .2s}
+.checkout-btn:hover{opacity:.82}
+.continue-btn{width:100%;padding:12px;background:transparent;color:var(--black);border:1px solid var(--border);font-family:var(--font);font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+
+/* CHECKOUT MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:#fff;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.modal-top{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-top h3{font-family:var(--font-d);font-size:22px;font-weight:400}
+.modal-x{background:none;border:none;font-size:24px;cursor:pointer}
+.modal-body{padding:24px}
+.cs{margin-bottom:20px}
+.cs h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.cf{margin-bottom:11px}
+.cf label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:5px}
+.cf input{width:100%;padding:10px 12px;border:1px solid var(--border);font-family:var(--font);font-size:13px;outline:none}
+.cf input:focus{border-color:var(--black)}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.osl{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;color:var(--gray)}
+.osl.total{color:var(--black);font-weight:500;font-size:14px;padding-top:10px;border-top:1px solid var(--border);margin-top:10px}
+.place-btn{width:100%;padding:15px;background:var(--black);color:#fff;border:none;font-family:var(--font);font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:opacity .2s}
+.place-btn:hover{opacity:.82}
+.order-ok{text-align:center;padding:40px 20px}
+.order-ok .ok-icon{font-size:52px;margin-bottom:16px;display:block}
+.order-ok h3{font-family:var(--font-d);font-size:26px;font-weight:400;margin-bottom:10px}
+.order-ok p{font-size:13px;color:var(--gray);line-height:1.7}
+
+/* TICKER */
+.ticker{background:var(--black);color:#fff;overflow:hidden;padding:12px 0;white-space:nowrap}
+.ticker-track{display:inline-flex;animation:tick 24s linear infinite}
+.ticker-track span{font-size:10px;letter-spacing:.22em;text-transform:uppercase;padding:0 28px}
+.ticker-track span::after{content:'—';margin-left:28px;opacity:.35}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* WA */
+.wa{position:fixed;bottom:24px;left:20px;z-index:300;background:#25D366;color:#fff;border-radius:50px;padding:10px 18px 10px 14px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.18);transition:transform .2s}
+.wa:hover{transform:scale(1.04)}
+.wa svg{width:18px;height:18px;fill:#fff}
+
+/* FOOTER */
+footer{background:var(--black);color:rgba(255,255,255,.5);padding:44px 24px 28px;margin-top:16px}
+.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px}
+@media(max-width:700px){.footer-inner{grid-template-columns:1fr 1fr}}
+.flogo{font-family:var(--font-d);font-size:22px;font-weight:300;letter-spacing:.2em;color:#fff;margin-bottom:12px}
+.fabout{font-size:12px;line-height:1.8;max-width:250px}
+.fcol h4{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#fff;margin-bottom:12px}
+.fcol a{display:block;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;margin-bottom:8px;transition:color .2s;cursor:pointer}
+.fcol a:hover{color:#fff}
+.fbot{max-width:1280px;margin:28px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* TOAST */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--black);color:#fff;padding:12px 26px;font-size:11px;letter-spacing:.1em;z-index:600;transition:transform .3s;pointer-events:none;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.green{background:var(--green)}
+</style>
+</head>
+<body>
+
+<!-- ══ STORE ══ -->
+<div id="storePage" class="page active">
+  <div class="topbar">🎁 Envío GRATIS en compras mayores a $150</div>
+  <header>
+    <div class="header-inner">
+      <span class="logo" onclick="showStore()">LUXEBAG</span>
+      <div class="header-icons">
+        <button onclick="showStore()"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></button>
+        <button onclick="openCart()" style="position:relative">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cartBadge" style="display:none">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav>
+    <div class="nav-inner">
+      <button class="sale" onclick="applyFilter('badge','sale')">Sale</button>
+      <button onclick="applyFilter('','')">Todos</button>
+      <button onclick="applyFilter('badge','new')">Nuevos</button>
+      <button onclick="applyFilter('brand','')">Por Marca</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-slides" id="heroSlides">
+      <div class="hero-slide active">
+        <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1400&q=80')"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content"><div class="hero-eyebrow">Nueva Colección</div><div class="hero-title">Esencia</div><div class="hero-sub">New in · MAISON LUXE</div></div>
+      </div>
+      <div class="hero-slide">
+        <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=1400&q=80')"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content"><div class="hero-eyebrow">Temporada FW26</div><div class="hero-title">Forma</div><div class="hero-sub">New in · ATELIER PARIS</div></div>
+      </div>
+      <div class="hero-slide">
+        <div class="hero-bg" style="background-image:url('https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=1400&q=80')"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content"><div class="hero-eyebrow">Edición Limitada</div><div class="hero-title">Viaje</div><div class="hero-sub">New in · NOMAD STUDIO</div></div>
+      </div>
+    </div>
+    <button class="hero-arrow prev" onclick="hSlide(-1)">&#8592;</button>
+    <button class="hero-arrow next" onclick="hSlide(1)">&#8594;</button>
+    <div class="hero-dots"><div class="hdot active" onclick="hGo(0)"></div><div class="hdot" onclick="hGo(1)"></div><div class="hdot" onclick="hGo(2)"></div></div>
+  </section>
+
+  <div class="intro">
+    <h2>Concept Store de Bolsos de Alta Gama</h2>
+    <p>Descubre una selección única de bolsos y accesorios de marcas internacionales, donde cada pieza es una obra de arte portátil llena de personalidad y artesanía.</p>
+  </div>
+
+  <div class="brands-strip">
+    <p class="brands-label">Our Brands from around the World</p>
+    <div class="brands-row" id="brandsRow"></div>
+  </div>
+
+  <div class="collection">
+    <div class="col-header"><span class="col-title" id="collTitle">NUEVA COLECCIÓN</span></div>
+    <button class="see-all" onclick="applyFilter('','')">Ver todos</button>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>Estilos exclusivos</span><span>Stock limitado</span><span>Moda de lujo</span><span>Envío gratis +$150</span><span>Nuevas colecciones</span><span>Marcas internacionales</span>
+      <span>Estilos exclusivos</span><span>Stock limitado</span><span>Moda de lujo</span><span>Envío gratis +$150</span><span>Nuevas colecciones</span><span>Marcas internacionales</span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div><div class="flogo">LUXEBAG</div><p class="fabout">Concept Store exclusivo de bolsos y accesorios de marcas internacionales. Lujo contemporáneo.</p></div>
+      <div class="fcol"><h4>Tienda</h4><a onclick="applyFilter('','')">Todos</a><a onclick="applyFilter('badge','new')">Nuevos</a><a onclick="applyFilter('badge','sale')">Sale</a></div>
+      <div class="fcol"><h4>Info</h4><a>Sobre nosotros</a><a>Envíos</a><a>Devoluciones</a></div>
+      <div class="fcol"><h4>Contacto</h4><a>WhatsApp</a><a>Instagram</a><a>info@luxebag.com</a></div>
+    </div>
+    <div class="fbot"><span>© 2026 LUXEBAG. Todos los derechos reservados.</span></div>
+  </footer>
+</div>
+
+<!-- ══ DETAIL ══ -->
+<div id="detailPage" class="page">
+  <div class="topbar">🎁 Envío GRATIS en compras mayores a $150</div>
+  <header>
+    <div class="header-inner">
+      <span class="logo" onclick="showStore()">LUXEBAG</span>
+      <div class="header-icons">
+        <button onclick="showStore()"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></button>
+        <button onclick="openCart()" style="position:relative"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-badge" id="cartBadge2" style="display:none">0</span></button>
+      </div>
+    </div>
+  </header>
+  <div class="detail-wrap" id="detailWrap"></div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head"><h3>Tu Carrito</h3><button class="cart-close" onclick="closeCart()">×</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot" id="cartFoot" style="display:none">
+    <div class="cart-sub"><span>Subtotal</span><strong id="cartTotal">$0.00</strong></div>
+    <p class="cart-ship" id="cartShip"></p>
+    <button class="checkout-btn" onclick="openCheckout()">Finalizar compra</button>
+    <button class="continue-btn" onclick="closeCart()">Seguir comprando</button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-bg" id="checkoutModal">
+  <div class="modal">
+    <div class="modal-top"><h3>Finalizar Compra</h3><button class="modal-x" onclick="closeCheckout()">×</button></div>
+    <div class="modal-body" id="checkoutBody"></div>
+  </div>
+</div>
+
+<a class="wa" href="https://wa.me/51999999999" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  Chatea con nosotros
+</a>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDaRnTa7gNtuFSC-Dpy47osXIAOCZabq8o",
+  authDomain: "gos-store.firebaseapp.com",
+  projectId: "gos-store",
+  storageBucket: "gos-store.firebasestorage.app",
+  messagingSenderId: "895961118503",
+  appId: "1:895961118503:web:a67094a0ec3b6639201b02"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function syncFromFirebase() {
+  const keys = ['gos_products','gos_collections','gos_hero','gos_discounts','gos_orders','gos_settings'];
+  for (const key of keys) {
+    try {
+      const snap = await getDoc(doc(db, 'store', key));
+      if (snap.exists()) localStorage.setItem(key, snap.data().data);
+    } catch(e) {}
+  }
+  renderStore();
+}
+syncFromFirebase();
+</script>
+<script>
+const PKEY='luxebag_products', CKEY='luxebag_cart', OKEY='luxebag_orders';
+const loadP=()=>{try{const d=JSON.parse(localStorage.getItem(PKEY)||'[]');return Array.isArray(d)&&d.length?d:DEFAULT_PRODUCTS;}catch(e){return DEFAULT_PRODUCTS;}};
+const loadC=()=>{try{const d=JSON.parse(localStorage.getItem(CKEY)||'[]');return Array.isArray(d)?d:[];}catch(e){return[];}};
+const loadO=()=>{try{const d=JSON.parse(localStorage.getItem(OKEY)||'[]');return Array.isArray(d)?d:[];}catch(e){return[];}};
+const saveC=a=>localStorage.setItem(CKEY,JSON.stringify(a));
+const saveO=a=>localStorage.setItem(OKEY,JSON.stringify(a));
+
+const DEFAULT_PRODUCTS=[
+  {id:'d1',name:'Bolso Tote Eviol',brand:'Maison Luxe',desc:'Cuero genuino italiano, asas dobles, compartimento interior con cierre.',price:209,salePrice:null,badge:'new',image:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80'},
+  {id:'d2',name:'Cartera Zeile',brand:'Maison Luxe',desc:'Cuero napa soft con herrajes dorados. Correa ajustable incluida.',price:319,salePrice:null,badge:'new',image:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&q=80'},
+  {id:'d3',name:'Bolso Mela',brand:'Maison Luxe',desc:'Diseño structured con forro de seda. Perfecto para el día a día.',price:209,salePrice:null,badge:'new',image:'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80'},
+  {id:'d4',name:'Bolso Drame',brand:'Maison Luxe',desc:'Piel suave con costuras contrastantes y cierre magnético.',price:209,salePrice:146.30,badge:'sale',image:'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=600&q=80'},
+  {id:'d5',name:'Bolso Aman',brand:'Nomad Studio',desc:'Canvas premium con detalles en cuero. Ideal para viajes cortos.',price:209,salePrice:146.30,badge:'sale',image:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80'},
+  {id:'d6',name:'Mochila Rove',brand:'Nomad Studio',desc:'Mochila urbana en lona resistente. Compartimento acolchado para laptop.',price:279,salePrice:null,badge:'new',image:'https://images.unsplash.com/photo-1491637639811-60e2756cc1c7?w=600&q=80'},
+  {id:'d7',name:'Clutch Nude',brand:'Atelier Paris',desc:'Clutch minimalista en piel grabada. Cierre de presión oculto.',price:159,salePrice:null,badge:'new',image:'https://images.unsplash.com/photo-1614179924047-e1ab49a0a0cf?w=600&q=80'},
+  {id:'d8',name:'Cartera Drift',brand:'Nomad Studio',desc:'Cuero vegano con forro estampado. Tarjetero interior.',price:249,salePrice:199,badge:'sale',image:'https://images.unsplash.com/photo-1547949003-9792a18a2601?w=600&q=80'},
+  {id:'d9',name:'Bolso Horizon',brand:'Touché',desc:'Tejido artesanal con ribete de piel. Edición limitada.',price:310,salePrice:null,badge:'new',image:'https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=600&q=80'},
+  {id:'d10',name:'Bolso Terra',brand:'Touché',desc:'Piel lavada con efecto envejecido. Muy versátil.',price:239,salePrice:191,badge:'sale',image:'https://images.unsplash.com/photo-1605733513597-a8f8341084e6?w=600&q=80'},
+];
+
+let storeFilter={type:'',value:''};
+
+function applyFilter(type,value){storeFilter={type,value};renderStore();showStore();}
+function showStore(){document.getElementById('storePage').classList.add('active');document.getElementById('detailPage').classList.remove('active');renderStore();window.scrollTo(0,0);}
+
+function renderStore(){
+  let products=loadP();
+  if(storeFilter.type==='badge'&&storeFilter.value) products=products.filter(p=>p.badge===storeFilter.value);
+  const brands=[...new Set(loadP().map(p=>p.brand))];
+  document.getElementById('brandsRow').innerHTML=brands.map(b=>`<span class="brand-nm">${b}</span>`).join('');
+  document.getElementById('collTitle').textContent=storeFilter.value==='sale'?'OFERTAS ESPECIALES':storeFilter.value==='new'?'NUEVOS INGRESOS':'NUEVA COLECCIÓN';
+  const grid=document.getElementById('productsGrid');
+  if(!products.length){grid.innerHTML=`<div class="empty-grid"><span class="eicon">👜</span><p>No hay productos aún.</p><a href="admin.html">Ir al panel admin →</a></div>`;return;}
+  grid.innerHTML=products.map(p=>{
+    const hd=p.salePrice&&p.salePrice<p.price;
+    const pct=hd?Math.round((1-p.salePrice/p.price)*100):0;
+    const badge=p.badge==='sale'&&hd?`<span class="pbadge sale">${pct}% OFF</span>`:p.badge==='new'?`<span class="pbadge new">New</span>`:'';
+    const ph=hd?`<span class="off">$${p.salePrice.toFixed(2)}</span> <span class="orig">$${p.price.toFixed(2)}</span>`:`$${p.price.toFixed(2)}`;
+    return `<div class="pcard" onclick="openDetail('${p.id}')"><div class="pcard-img">${badge}<img src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=60'"/></div><p class="pcard-brand">${p.brand}</p><p class="pcard-name">${p.name}</p><p class="pcard-price">${ph}</p></div>`;
+  }).join('');
+}
+
+function openDetail(id){
+  const p=loadP().find(x=>x.id===id);if(!p)return;
+  const hd=p.salePrice&&p.salePrice<p.price;
+  const pct=hd?Math.round((1-p.salePrice/p.price)*100):0;
+  const ph=hd?`<span class="detail-price">$${p.salePrice.toFixed(2)}</span><span class="detail-price-orig">$${p.price.toFixed(2)}</span><span class="detail-price-off">${pct}% OFF</span>`:`<span class="detail-price">$${p.price.toFixed(2)}</span>`;
+  document.getElementById('detailWrap').innerHTML=`<div><div class="detail-img"><img src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80'"/></div></div><div><button class="detail-back" onclick="showStore()">← Volver</button><p class="detail-brand">${p.brand}</p><h1 class="detail-name">${p.name}</h1><div class="detail-price-row">${ph}</div><p class="detail-desc">${p.desc||'Bolso de alta calidad con los mejores materiales.'}</p><button class="add-btn" id="addBtn_${p.id}" onclick="addToCart('${p.id}')">Agregar al carrito</button><button class="wish-btn">♡ Guardar en lista de deseos</button><div class="detail-meta"><p>✓ Envío gratuito en pedidos mayores a $150</p><p>✓ Devoluciones gratuitas en 30 días</p><p>✓ Producto auténtico garantizado</p></div></div>`;
+  document.getElementById('storePage').classList.remove('active');
+  document.getElementById('detailPage').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// CART
+function addToCart(id){
+  const p=loadP().find(x=>x.id===id);if(!p)return;
+  const cart=loadC();const ex=cart.find(i=>i.id===id);
+  if(ex)ex.qty++;else cart.push({id,qty:1});
+  saveC(cart);updateBadge();renderCart();toast('✓ Agregado al carrito','green');
+  const btn=document.getElementById('addBtn_'+id);
+  if(btn){btn.textContent='✓ En el carrito';btn.classList.add('added');setTimeout(()=>{btn.textContent='Agregar al carrito';btn.classList.remove('added');},2000);}
+}
+function updateBadge(){
+  const t=loadC().reduce((s,i)=>s+i.qty,0);
+  ['cartBadge','cartBadge2'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=t;el.style.display=t>0?'flex':'none';}});
+}
+function openCart(){document.getElementById('cartDrawer').classList.add('open');document.getElementById('cartOverlay').classList.add('open');renderCart();}
+function closeCart(){document.getElementById('cartDrawer').classList.remove('open');document.getElementById('cartOverlay').classList.remove('open');}
+function changeQty(id,d){const c=loadC();const i=c.find(x=>x.id===id);if(i)i.qty=Math.max(1,i.qty+d);saveC(c);updateBadge();renderCart();}
+function removeFromCart(id){saveC(loadC().filter(x=>x.id!==id));updateBadge();renderCart();}
+function renderCart(){
+  const cart=loadC(),products=loadP();
+  const el=document.getElementById('cartItems'),foot=document.getElementById('cartFoot');
+  if(!cart.length){el.innerHTML=`<div class="cart-empty"><span class="icon">🛍</span><p>Tu carrito está vacío.</p></div>`;foot.style.display='none';return;}
+  let sub=0;
+  el.innerHTML=cart.map(item=>{
+    const p=products.find(x=>x.id===item.id);if(!p)return'';
+    const price=(p.salePrice&&p.salePrice<p.price)?p.salePrice:p.price;
+    sub+=price*item.qty;
+    return `<div class="cart-item"><img class="ci-img" src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=120&q=60'"/><div><p class="ci-name">${p.name}</p><p class="ci-brand">${p.brand}</p><div class="qty-row"><button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button><span class="qty-n">${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><button class="ci-remove" onclick="removeFromCart('${item.id}')">×</button><span class="ci-price">$${(price*item.qty).toFixed(2)}</span></div></div>`;
+  }).join('');
+  foot.style.display='block';
+  document.getElementById('cartTotal').textContent='$'+sub.toFixed(2);
+  document.getElementById('cartShip').textContent=sub>=150?'✓ ¡Envío gratis incluido!':'Agrega $'+(150-sub).toFixed(2)+' más para envío gratis';
+}
+
+// CHECKOUT
+function openCheckout(){
+  closeCart();
+  const cart=loadC(),products=loadP();
+  let sub=0;
+  const lines=cart.map(item=>{const p=products.find(x=>x.id===item.id);if(!p)return'';const price=(p.salePrice&&p.salePrice<p.price)?p.salePrice:p.price;sub+=price*item.qty;return `<div class="osl"><span>${p.name} × ${item.qty}</span><span>$${(price*item.qty).toFixed(2)}</span></div>`;}).join('');
+  const ship=sub>=150?0:12;
+  document.getElementById('checkoutBody').innerHTML=`<div class="cs"><h4>Datos de entrega</h4><div class="cf-row"><div class="cf"><label>Nombre</label><input type="text" id="cName" placeholder="Tu nombre"/></div><div class="cf"><label>Apellido</label><input type="text" id="cLast" placeholder="Tu apellido"/></div></div><div class="cf"><label>Email</label><input type="email" id="cEmail" placeholder="tu@email.com"/></div><div class="cf"><label>Teléfono</label><input type="text" id="cPhone" placeholder="+51 999 999 999"/></div><div class="cf"><label>Dirección</label><input type="text" id="cAddr" placeholder="Av. Principal 123, Lima"/></div></div><div class="cs"><h4>Resumen</h4>${lines}<div class="osl"><span>Envío</span><span>${ship===0?'Gratis':'$'+ship.toFixed(2)}</span></div><div class="osl total"><span>Total</span><span>$${(sub+ship).toFixed(2)}</span></div><button class="place-btn" onclick="placeOrder(${sub+ship})">Confirmar pedido →</button></div>`;
+  document.getElementById('checkoutModal').classList.add('open');
+}
+function closeCheckout(){document.getElementById('checkoutModal').classList.remove('open');}
+function placeOrder(total){
+  const name=document.getElementById('cName')?.value.trim();
+  const email=document.getElementById('cEmail')?.value.trim();
+  const addr=document.getElementById('cAddr')?.value.trim();
+  if(!name||!email||!addr){toast('⚠ Completa todos los campos');return;}
+  const cart=loadC(),products=loadP();
+  const items=cart.map(item=>{const p=products.find(x=>x.id===item.id);return p?`${p.name} × ${item.qty}`:''}).filter(Boolean);
+  const order={id:'ORD-'+Date.now(),date:new Date().toLocaleDateString('es-PE',{day:'2-digit',month:'short',year:'numeric'}),customer:name,email,address:addr,items,total,status:'pending'};
+  const orders=loadO();orders.unshift(order);saveO(orders);saveC([]);updateBadge();
+  document.getElementById('checkoutBody').innerHTML=`<div class="order-ok"><span class="ok-icon">🎉</span><h3>¡Pedido confirmado!</h3><p>Gracias ${name}, hemos recibido tu pedido <strong>${order.id}</strong>.<br>Te contactaremos a <strong>${email}</strong>.</p></div>`;
+  setTimeout(closeCheckout,4000);
+  toast('✓ Pedido realizado','green');
+}
+
+// HERO
+let hC=0;
+function hGo(n){
+  const sl=document.querySelectorAll('.hero-slide'),dt=document.querySelectorAll('.hdot');
+  sl[hC].classList.remove('active');dt[hC].classList.remove('active');
+  hC=(n+3)%3;sl[hC].classList.add('active');dt[hC].classList.add('active');
+  document.getElementById('heroSlides').style.transform=`translateX(-${hC*100}%)`;
+}
+function hSlide(d){hGo(hC+d);}
+setInterval(()=>hSlide(1),5000);
+
+// TOAST
+function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast'+(type?' '+type:'')+' show';setTimeout(()=>el.classList.remove('show'),2500);}
+
+// Listen for product updates from admin.html (same origin)
+window.addEventListener('storage',e=>{if(e.key===PKEY)renderStore();});
+
+updateBadge();renderStore();
+</script>
+</body>
+</html>
