@@ -322,10 +322,10 @@ footer{background:var(--black);color:rgba(255,255,255,.5);padding:44px 24px 28px
 
 <div class="toast" id="toast"></div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+<!-- Firebase compat -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyDaRnTa7gNtuFSC-Dpy47osXIAOCZabq8o",
   authDomain: "gos-store.firebaseapp.com",
@@ -334,20 +334,17 @@ const firebaseConfig = {
   messagingSenderId: "895961118503",
   appId: "1:895961118503:web:a67094a0ec3b6639201b02"
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-async function syncFromFirebase() {
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+async function fbLoadAll() {
   const keys = ['gos_products','gos_collections','gos_hero','gos_discounts','gos_orders','gos_settings'];
   for (const key of keys) {
     try {
-      const snap = await getDoc(doc(db, 'store', key));
-      if (snap.exists()) localStorage.setItem(key, snap.data().data);
+      const snap = await db.collection('store').doc(key).get();
+      if (snap.exists) localStorage.setItem(key, snap.data().data);
     } catch(e) {}
   }
-  renderStore();
 }
-syncFromFirebase();
 </script>
 <script>
 const PKEY='luxebag_products', CKEY='luxebag_cart', OKEY='luxebag_orders';
@@ -478,7 +475,7 @@ function toast(msg,type=''){const el=document.getElementById('toast');el.textCon
 // Listen for product updates from admin.html (same origin)
 window.addEventListener('storage',e=>{if(e.key===PKEY)renderStore();});
 
-updateBadge();renderStore();
+fbLoadAll().then(()=>{updateBadge();renderStore();});
 </script>
 </body>
 </html>
