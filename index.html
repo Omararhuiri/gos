@@ -209,6 +209,92 @@ footer{background:var(--black);color:rgba(255,255,255,.5);padding:44px 24px 28px
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--black);color:#fff;padding:12px 26px;font-size:11px;letter-spacing:.1em;z-index:600;transition:transform .3s;pointer-events:none;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.green{background:var(--green)}
+
+/* ── COLLECTIONS GRID (Renzo Costa style) ── */
+.rc-collections{padding:40px 20px;max-width:1280px;margin:0 auto}
+.rc-collections-title{text-align:center;font-family:var(--font-d);font-size:28px;font-weight:400;letter-spacing:.06em;margin-bottom:8px}
+.rc-collections-sub{text-align:center;font-size:12px;color:var(--gray);letter-spacing:.14em;text-transform:uppercase;margin-bottom:32px}
+.rc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:380px 280px;gap:12px}
+.rc-grid .rc-item:first-child{grid-row:1/3;grid-column:1/2}
+.rc-item{position:relative;overflow:hidden;cursor:pointer;border-radius:2px}
+.rc-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+.rc-item:hover img{transform:scale(1.05)}
+.rc-item-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 50%);transition:background .3s}
+.rc-item:hover .rc-item-overlay{background:linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,.1) 60%)}
+.rc-item-label{position:absolute;bottom:22px;left:22px;color:#fff}
+.rc-item-label span{display:block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;opacity:.8;margin-bottom:5px}
+.rc-item-label h3{font-family:var(--font-d);font-size:26px;font-weight:400;letter-spacing:.06em}
+.rc-item-label button{margin-top:10px;background:transparent;border:1px solid rgba(255,255,255,.7);color:#fff;font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:7px 16px;cursor:pointer;transition:all .2s}
+.rc-item-label button:hover{background:#fff;color:var(--black)}
+@media(max-width:768px){
+  .rc-grid{grid-template-columns:1fr 1fr;grid-template-rows:220px 220px 180px}
+  .rc-grid .rc-item:first-child{grid-row:1/2;grid-column:1/3}
+}
+@media(max-width:480px){
+  .rc-grid{grid-template-columns:1fr;grid-template-rows:auto}
+  .rc-grid .rc-item:first-child{grid-row:auto;grid-column:auto}
+  .rc-item{height:260px}
+}
+
+/* ── FEATURES STRIP ── */
+.features-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:40px 20px;margin:0}
+.features-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+.feature-item{text-align:center;padding:10px}
+.feature-icon{width:40px;height:40px;margin:0 auto 14px;color:var(--black)}
+.feature-title{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:6px}
+.feature-desc{font-size:12px;color:var(--gray);line-height:1.6;font-weight:300}
+@media(max-width:768px){.features-inner{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.features-inner{grid-template-columns:1fr}}
+
+/* ── LOOKBOOK / INSTAGRAM GRID ── */
+.lookbook{padding:50px 20px;max-width:1280px;margin:0 auto}
+.lookbook-header{text-align:center;margin-bottom:30px}
+.lookbook-header h2{font-family:var(--font-d);font-size:28px;font-weight:400;margin-bottom:8px}
+.lookbook-header p{font-size:12px;color:var(--gray);letter-spacing:.12em;text-transform:uppercase}
+.lookbook-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.lookbook-item{aspect-ratio:1;overflow:hidden;position:relative;cursor:pointer}
+.lookbook-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.lookbook-item:hover img{transform:scale(1.08)}
+.lookbook-item-overlay{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;transition:background .3s}
+.lookbook-item:hover .lookbook-item-overlay{background:rgba(0,0,0,.3)}
+.lookbook-item-overlay svg{opacity:0;transition:opacity .3s;color:#fff}
+.lookbook-item:hover .lookbook-item-overlay svg{opacity:1}
+@media(max-width:768px){.lookbook-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ── NEWSLETTER ── */
+.newsletter{background:var(--black);color:#fff;padding:70px 20px;text-align:center}
+.newsletter-inner{max-width:520px;margin:0 auto}
+.newsletter-eyebrow{font-size:10px;letter-spacing:.26em;text-transform:uppercase;opacity:.6;margin-bottom:14px}
+.newsletter h2{font-family:var(--font-d);font-size:40px;font-weight:300;margin-bottom:14px;line-height:1.1}
+.newsletter p{font-size:13px;opacity:.7;margin-bottom:32px;line-height:1.7}
+.newsletter-form{display:flex;gap:0;max-width:420px;margin:0 auto}
+.newsletter-form input{flex:1;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;padding:13px 18px;font-size:12px;font-family:var(--font);outline:none;letter-spacing:.06em}
+.newsletter-form input::placeholder{color:rgba(255,255,255,.4)}
+.newsletter-form button{background:#fff;color:var(--black);border:none;padding:13px 22px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;font-family:var(--font);font-weight:500;transition:background .2s}
+.newsletter-form button:hover{background:#e5e5e5}
+.newsletter-note{font-size:11px;opacity:.45;margin-top:16px;letter-spacing:.06em}
+@media(max-width:480px){.newsletter-form{flex-direction:column}.newsletter-form button{padding:13px}}
+
+/* ── FOOTER ENHANCED ── */
+footer{background:#0A0A0A;color:#fff;padding:60px 20px 0}
+.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:50px;border-bottom:1px solid rgba(255,255,255,.1)}
+.flogo{font-family:var(--font-d);font-size:28px;letter-spacing:.18em;margin-bottom:14px}
+.fabout{font-size:12px;color:rgba(255,255,255,.5);line-height:1.8;max-width:260px;margin-bottom:22px}
+.fsocial{display:flex;gap:12px}
+.fsocial a{width:34px;height:34px;border:1px solid rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);text-decoration:none;font-size:13px;transition:all .2s}
+.fsocial a:hover{border-color:#fff;color:#fff}
+.fcol h4{font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:18px;color:rgba(255,255,255,.5)}
+.fcol a{display:block;font-size:13px;color:rgba(255,255,255,.65);text-decoration:none;margin-bottom:10px;cursor:pointer;transition:color .2s;font-weight:300}
+.fcol a:hover{color:#fff}
+.fbot{max-width:1280px;margin:0 auto;padding:22px 0;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.06em}
+.fbot-pay{display:flex;gap:8px;align-items:center}
+.fpay-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:4px 10px;font-size:10px;letter-spacing:.1em;color:rgba(255,255,255,.5)}
+@media(max-width:768px){
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .fbot{flex-direction:column;gap:12px;text-align:center}
+}
+@media(max-width:480px){.footer-inner{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -276,6 +362,86 @@ footer{background:var(--black);color:rgba(255,255,255,.5);padding:44px 24px 28px
     <div class="brands-row" id="brandsRow"></div>
   </div>
 
+  
+  <!-- ══ COLLECTIONS GRID ══ -->
+  <section class="rc-collections">
+    <h2 class="rc-collections-title">Nuestras Colecciones</h2>
+    <p class="rc-collections-sub">Descubre cada estilo</p>
+    <div class="rc-grid">
+      <div class="rc-item" onclick="applyFilter('collection','bolsos');setActiveNav(document.querySelector('.header-nav button'))">
+        <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80" alt="Bolsos" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=80'"/>
+        <div class="rc-item-overlay"></div>
+        <div class="rc-item-label">
+          <span>Colección</span>
+          <h3>Bolsos</h3>
+          <button onclick="event.stopPropagation();applyFilter('','')">Explorar</button>
+        </div>
+      </div>
+      <div class="rc-item" onclick="applyFilter('','')">
+        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=700&q=80" alt="Carteras" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&q=80'"/>
+        <div class="rc-item-overlay"></div>
+        <div class="rc-item-label">
+          <span>Colección</span>
+          <h3>Carteras</h3>
+          <button onclick="event.stopPropagation();applyFilter('','')">Explorar</button>
+        </div>
+      </div>
+      <div class="rc-item" onclick="applyFilter('badge','new')">
+        <img src="https://images.unsplash.com/photo-1606522754091-a3bbf9ad4cb3?w=700&q=80" alt="Nuevos" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&q=80'"/>
+        <div class="rc-item-overlay"></div>
+        <div class="rc-item-label">
+          <span>Lo más nuevo</span>
+          <h3>Nuevos</h3>
+          <button onclick="event.stopPropagation();applyFilter('badge','new')">Ver colección</button>
+        </div>
+      </div>
+      <div class="rc-item" onclick="applyFilter('badge','sale')">
+        <img src="https://images.unsplash.com/photo-1575032617751-6ddec2089882?w=700&q=80" alt="Sale" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&q=80'"/>
+        <div class="rc-item-overlay"></div>
+        <div class="rc-item-label">
+          <span>Ofertas</span>
+          <h3>Sale</h3>
+          <button onclick="event.stopPropagation();applyFilter('badge','sale')">Ver ofertas</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ FEATURES STRIP ══ -->
+  <section class="features-strip">
+    <div class="features-inner">
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M5 8h14M5 8a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v0a2 2 0 01-2 2M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8M10 12h4"/>
+        </svg>
+        <div class="feature-title">Envío Gratis</div>
+        <div class="feature-desc">En compras mayores a $150.<br>Despacho a todo el país.</div>
+      </div>
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+        </svg>
+        <div class="feature-title">Calidad Premium</div>
+        <div class="feature-desc">Cuero genuino y materiales<br>seleccionados con rigor.</div>
+      </div>
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        <div class="feature-title">Cambios y Devoluciones</div>
+        <div class="feature-desc">30 días para cambios<br>sin preguntas.</div>
+      </div>
+      <div class="feature-item">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        <div class="feature-title">Pago Seguro</div>
+        <div class="feature-desc">Transacciones encriptadas.<br>100% protegido.</div>
+      </div>
+    </div>
+  </section>
+
   <div class="collection">
     <div class="col-header"><span class="col-title" id="collTitle">NUEVA COLECCIÓN</span></div>
     <button class="see-all" onclick="applyFilter('','')">Ver todos</button>
@@ -289,14 +455,111 @@ footer{background:var(--black);color:rgba(255,255,255,.5);padding:44px 24px 28px
     </div>
   </div>
 
-  <footer>
-    <div class="footer-inner">
-      <div><div class="flogo">LUXEBAG</div><p class="fabout">Concept Store exclusivo de bolsos y accesorios de marcas internacionales. Lujo contemporáneo.</p></div>
-      <div class="fcol"><h4>Tienda</h4><a onclick="applyFilter('','')">Todos</a><a onclick="applyFilter('badge','new')">Nuevos</a><a onclick="applyFilter('badge','sale')">Sale</a></div>
-      <div class="fcol"><h4>Info</h4><a>Sobre nosotros</a><a>Envíos</a><a>Devoluciones</a></div>
-      <div class="fcol"><h4>Contacto</h4><a>WhatsApp</a><a>Instagram</a><a>info@luxebag.com</a></div>
+  
+  <!-- ══ LOOKBOOK / INSTAGRAM ══ -->
+  <section class="lookbook">
+    <div class="lookbook-header">
+      <h2>Síguenos en Instagram</h2>
+      <p>@gos.luxebags · Inspírate con nuestros looks</p>
     </div>
-    <div class="fbot"><span>© 2026 LUXEBAG. Todos los derechos reservados.</span></div>
+    <div class="lookbook-grid">
+      <div class="lookbook-item">
+        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=75" alt="Look 1" loading="lazy"/>
+        <div class="lookbook-item-overlay"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
+      </div>
+      <div class="lookbook-item">
+        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&q=75" alt="Look 2" loading="lazy"/>
+        <div class="lookbook-item-overlay"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
+      </div>
+      <div class="lookbook-item">
+        <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&q=75" alt="Look 3" loading="lazy"/>
+        <div class="lookbook-item-overlay"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
+      </div>
+      <div class="lookbook-item">
+        <img src="https://images.unsplash.com/photo-1606522754091-a3bbf9ad4cb3?w=400&q=75" alt="Look 4" loading="lazy"/>
+        <div class="lookbook-item-overlay"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
+      </div>
+      <div class="lookbook-item">
+        <img src="https://images.unsplash.com/photo-1575032617751-6ddec2089882?w=400&q=75" alt="Look 5" loading="lazy"/>
+        <div class="lookbook-item-overlay"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
+      </div>
+      <div class="lookbook-item">
+        <img src="https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=400&q=75" alt="Look 6" loading="lazy"/>
+        <div class="lookbook-item-overlay"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ NEWSLETTER ══ -->
+  <section class="newsletter">
+    <div class="newsletter-inner">
+      <p class="newsletter-eyebrow">Únete a la comunidad</p>
+      <h2>Exclusivo para<br>miembros GOS</h2>
+      <p>Sé el primero en conocer nuestras nuevas colecciones, accede a ofertas privadas y recibe inspiración de moda directo a tu inbox.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Tu correo electrónico" id="nlEmail"/>
+        <button onclick="subscribeNewsletter()">Suscribirse</button>
+      </div>
+      <p class="newsletter-note">Sin spam. Puedes cancelar cuando quieras.</p>
+    </div>
+  </section>
+
+<footer>
+    <div class="footer-inner">
+      <div>
+        <div class="flogo">GOS</div>
+        <p class="fabout">Concept Store exclusivo de bolsos y accesorios de marcas internacionales. Lujo contemporáneo para quienes aprecian lo extraordinario.</p>
+        <div class="fsocial">
+          <a href="#" title="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" title="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" title="TikTok" onclick="openWhatsApp()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.78a4.85 4.85 0 01-1.01-.09z"/></svg>
+          </a>
+          <a href="#" title="WhatsApp" onclick="openWhatsApp()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="fcol">
+        <h4>Tienda</h4>
+        <a onclick="applyFilter('','')">Todos los productos</a>
+        <a onclick="applyFilter('badge','new')">Nuevos ingresos</a>
+        <a onclick="applyFilter('badge','sale')">Sale &amp; Ofertas</a>
+        <a onclick="applyFilter('','')">Más vendidos</a>
+      </div>
+      <div class="fcol">
+        <h4>Información</h4>
+        <a>Sobre nosotros</a>
+        <a>Política de envíos</a>
+        <a>Cambios y devoluciones</a>
+        <a>Preguntas frecuentes</a>
+        <a>Términos y condiciones</a>
+      </div>
+      <div class="fcol">
+        <h4>Contacto</h4>
+        <a onclick="openWhatsApp()">WhatsApp</a>
+        <a>Instagram</a>
+        <a>info@gos.pe</a>
+        <br/>
+        <h4 style="margin-top:16px">Horario</h4>
+        <a>Lun – Vie: 9am – 7pm</a>
+        <a>Sáb: 10am – 4pm</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 GOS. Todos los derechos reservados.</span>
+      <div class="fbot-pay">
+        <span class="fpay-badge">VISA</span>
+        <span class="fpay-badge">Mastercard</span>
+        <span class="fpay-badge">Yape</span>
+        <span class="fpay-badge">Plin</span>
+      </div>
+    </div>
   </footer>
 </div>
 
@@ -626,6 +889,14 @@ function searchProducts(q){
 function openWhatsApp(){
   try{const s=JSON.parse(localStorage.getItem('gos_settings')||'null');const wa=s&&s.wa?s.wa:'+51999999999';window.open('https://wa.me/'+wa.replace(/\D/g,''),'_blank');}catch(e){}
 }
+
+function subscribeNewsletter(){
+  const email = document.getElementById('nlEmail').value.trim();
+  if(!email || !email.includes('@')){toast('⚠ Ingresa un email válido');return;}
+  toast('✓ ¡Suscrito! Gracias por unirte','green');
+  document.getElementById('nlEmail').value='';
+}
+
 // TOAST
 function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast'+(type?' '+type:'')+' show';setTimeout(()=>el.classList.remove('show'),2500);}
 
