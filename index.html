@@ -352,16 +352,14 @@ async function fbLoadAll() {
 }
 </script>
 <script>
-const PKEY='luxebag_products', CKEY='luxebag_cart', OKEY='luxebag_orders';
-const loadP=()=>{try{const d=JSON.parse(localStorage.getItem(PKEY)||'[]');return Array.isArray(d)&&d.length?d:DEFAULT_PRODUCTS;}catch(e){return DEFAULT_PRODUCTS;}};
+const PKEY='gos_products', CKEY='luxebag_cart', OKEY='gos_orders';
+const loadP=()=>{try{const d=JSON.parse(localStorage.getItem(PKEY)||'[]');return Array.isArray(d)&&d.length?d.filter(p=>p.active!==false):DEFAULT_PRODUCTS;}catch(e){return DEFAULT_PRODUCTS;}};
 const loadC=()=>{try{const d=JSON.parse(localStorage.getItem(CKEY)||'[]');return Array.isArray(d)?d:[];}catch(e){return[];}};
 const loadO=()=>{try{const d=JSON.parse(localStorage.getItem(OKEY)||'[]');return Array.isArray(d)?d:[];}catch(e){return[];}};
 const saveC=a=>localStorage.setItem(CKEY,JSON.stringify(a));
 const saveO=a=>{
   localStorage.setItem(OKEY,JSON.stringify(a));
-  // save to firestore under both keys so admin can see orders
   db.collection('store').doc('gos_orders').set({data:JSON.stringify(a)}).catch(e=>e);
-  db.collection('store').doc('luxebag_orders').set({data:JSON.stringify(a)}).catch(e=>e);
 };
 
 const DEFAULT_PRODUCTS=[
@@ -470,22 +468,47 @@ function placeOrder(total){
 
 // HERO
 let hC=0;
+function getHeroSlides(){
+  try{const d=JSON.parse(localStorage.getItem('gos_hero')||'null');return Array.isArray(d)&&d.length?d:null;}catch(e){return null;}
+}
+function renderHero(){
+  const slides=getHeroSlides();
+  if(!slides) return;
+  const container=document.getElementById('heroSlides');
+  const dotsEl=document.querySelector('.hdots');
+  if(!container) return;
+  container.innerHTML=slides.map((s,i)=>`<div class="hero-slide${i===0?' active':''}" style="background-image:url('${s.image}')"><div class="hero-content"><p class="hero-eye">${s.eye||''}</p><h1 class="hero-title">${s.title||''}</h1><p class="hero-sub">${s.sub||''}</p><button class="hero-btn" onclick="applyFilter('','')">Explorar</button></div></div>`).join('');
+  if(dotsEl) dotsEl.innerHTML=slides.map((_,i)=>`<button class="hdot${i===0?' active':''}" onclick="hGo(${i})"></button>`).join('');
+  hC=0;
+}
 function hGo(n){
   const sl=document.querySelectorAll('.hero-slide'),dt=document.querySelectorAll('.hdot');
-  sl[hC].classList.remove('active');dt[hC].classList.remove('active');
-  hC=(n+3)%3;sl[hC].classList.add('active');dt[hC].classList.add('active');
+  if(!sl.length) return;
+  sl[hC].classList.remove('active');if(dt[hC])dt[hC].classList.remove('active');
+  hC=(n+sl.length)%sl.length;sl[hC].classList.add('active');if(dt[hC])dt[hC].classList.add('active');
   document.getElementById('heroSlides').style.transform=`translateX(-${hC*100}%)`;
 }
 function hSlide(d){hGo(hC+d);}
 setInterval(()=>hSlide(1),5000);
+function applySettings(){
+  try{
+    const s=JSON.parse(localStorage.getItem('gos_settings')||'null');
+    if(!s) return;
+    if(s.name) document.querySelectorAll('.logo').forEach(el=>el.textContent=s.name);
+    if(s.slogan) document.querySelectorAll('.flogo').forEach(el=>el.textContent=s.name||'');
+    if(s.freeShip){
+      document.querySelectorAll('.topbar').forEach(el=>el.textContent=`🎁 Envío GRATIS en compras mayores a $${s.freeShip}`);
+    }
+  }catch(e){}
+}
 
 // TOAST
 function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast'+(type?' '+type:'')+' show';setTimeout(()=>el.classList.remove('show'),2500);}
 
 // Listen for product updates from admin.html (same origin)
-window.addEventListener('storage',e=>{if(e.key===PKEY)renderStore();});
+window.addEventListener('storage',e=>{if(e.key===PKEY||e.key==='gos_products')renderStore();if(e.key==='gos_hero')renderHero();});
 
-fbLoadAll().then(()=>{updateBadge();renderStore();});
+fbLoadAll().then(()=>{updateBadge();renderStore();renderHero();applySettings();});
 </script>
 </body>
 </html>
