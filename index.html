@@ -290,17 +290,25 @@ header{
   position:fixed;left:0;right:0;
   top:85px;
   background:#fff;
-  border-top:2px solid var(--accent);
-  box-shadow:0 12px 40px rgba(0,0,0,.12);
+  border-top:3px solid var(--accent);
+  box-shadow:0 16px 48px rgba(0,0,0,.14);
   padding:36px 60px 40px;
-  display:none;
-  z-index:999;
+  display:grid;
+  z-index:1100;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
   gap:0 40px;
   opacity:0;
-  transition:opacity .2s ease;
+  visibility:hidden;
+  pointer-events:none;
+  transform:translateY(-10px);
+  transition:opacity .22s ease, transform .22s ease, visibility .22s;
 }
-.mega-menu.open{display:grid;opacity:1;}
+.mega-menu.open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:all;
+  transform:translateY(0);
+}
 .mega-col h4{
   font-size:10px;letter-spacing:3px;text-transform:uppercase;
   color:var(--accent);font-weight:700;margin-bottom:14px;
