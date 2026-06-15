@@ -337,13 +337,18 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 async function fbLoadAll() {
-  const keys = ['gos_products','gos_collections','gos_hero','gos_discounts','gos_orders','gos_settings'];
-  for (const key of keys) {
-    try {
-      const snap = await db.collection('store').doc(key).get();
-      if (snap.exists) localStorage.setItem(key, snap.data().data);
-    } catch(e) {}
-  }
+  // Load products from Firestore (saved by admin as 'gos_products') into the store key
+  try {
+    const snap = await db.collection('store').doc('gos_products').get();
+    if (snap.exists) {
+      localStorage.setItem('luxebag_products', snap.data().data);
+    }
+  } catch(e) { console.error('fbLoadAll error', e); }
+  // Also sync orders back to admin key
+  try {
+    const snap = await db.collection('store').doc('luxebag_orders').get();
+    if (snap.exists) localStorage.setItem('luxebag_orders', snap.data().data);
+  } catch(e) {}
 }
 </script>
 <script>
@@ -352,7 +357,12 @@ const loadP=()=>{try{const d=JSON.parse(localStorage.getItem(PKEY)||'[]');return
 const loadC=()=>{try{const d=JSON.parse(localStorage.getItem(CKEY)||'[]');return Array.isArray(d)?d:[];}catch(e){return[];}};
 const loadO=()=>{try{const d=JSON.parse(localStorage.getItem(OKEY)||'[]');return Array.isArray(d)?d:[];}catch(e){return[];}};
 const saveC=a=>localStorage.setItem(CKEY,JSON.stringify(a));
-const saveO=a=>localStorage.setItem(OKEY,JSON.stringify(a));
+const saveO=a=>{
+  localStorage.setItem(OKEY,JSON.stringify(a));
+  // save to firestore under both keys so admin can see orders
+  db.collection('store').doc('gos_orders').set({data:JSON.stringify(a)}).catch(e=>e);
+  db.collection('store').doc('luxebag_orders').set({data:JSON.stringify(a)}).catch(e=>e);
+};
 
 const DEFAULT_PRODUCTS=[
   {id:'d1',name:'Bolso Tote Eviol',brand:'Maison Luxe',desc:'Cuero genuino italiano, asas dobles, compartimento interior con cierre.',price:209,salePrice:null,badge:'new',image:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80'},
