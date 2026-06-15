@@ -63,6 +63,273 @@ header{
 .nav-item:hover::after{width:100%;}
 .nav-item.outlet{color:var(--accent);}
 .nav-item.outlet::after{background:var(--accent);}
+
+
+
+/* ===== SIDE DRAWER ===== */
+.drawer-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:1500;
+  opacity:0;pointer-events:none;transition:opacity .35s;
+}
+.drawer-overlay.open{opacity:1;pointer-events:all;}
+
+.side-drawer{
+  position:fixed;top:0;left:0;bottom:0;
+  width:340px;background:#fff;z-index:1501;
+  transform:translateX(-100%);transition:transform .38s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.side-drawer.open{transform:translateX(0);}
+
+.drawer-head{
+  padding:28px 28px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;
+}
+.drawer-head-title{
+  font-family:'Playfair Display',serif;font-size:26px;font-weight:700;
+}
+.drawer-head-sub{font-size:11px;color:var(--gray);letter-spacing:1.5px;margin-top:4px;}
+.drawer-close{
+  background:none;border:none;cursor:pointer;
+  font-size:22px;color:var(--gray);line-height:1;padding:0;
+  transition:color .2s;
+}
+.drawer-close:hover{color:var(--dark);}
+
+.drawer-body{flex:1;overflow-y:auto;padding:24px 28px;}
+
+.drawer-section{margin-bottom:28px;}
+.drawer-section h4{
+  font-size:9.5px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);font-weight:700;margin-bottom:14px;
+  padding-bottom:8px;border-bottom:1px solid var(--border);
+}
+.drawer-links{display:flex;flex-direction:column;gap:0;}
+.drawer-link{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 0;border-bottom:1px solid #f4f4f4;
+  font-size:13px;color:var(--dark);cursor:pointer;
+  transition:color .2s, padding-left .2s;
+  font-weight:500;
+}
+.drawer-link:hover{color:var(--accent);padding-left:6px;}
+.drawer-link .arrow{font-size:10px;color:var(--gray);}
+.drawer-promo{
+  position:relative;overflow:hidden;cursor:pointer;
+  margin-top:4px;
+}
+.drawer-promo img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;transition:transform .5s;}
+.drawer-promo:hover img{transform:scale(1.04);}
+.drawer-promo-label{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 16px 14px;
+  background:linear-gradient(transparent,rgba(0,0,0,.65));
+  color:#fff;
+}
+.drawer-promo-label span{font-size:13px;font-weight:700;letter-spacing:.5px;display:block;}
+.drawer-promo-label small{font-size:10px;letter-spacing:1.5px;opacity:.85;text-transform:uppercase;}
+
+.drawer-foot{
+  padding:20px 28px;border-top:1px solid var(--border);
+}
+.drawer-cta{
+  display:block;width:100%;padding:14px;text-align:center;
+  background:var(--dark);color:#fff;font-size:10.5px;
+  letter-spacing:2.5px;text-transform:uppercase;font-weight:700;
+  cursor:pointer;border:none;font-family:'Montserrat',sans-serif;
+  transition:background .2s;
+}
+.drawer-cta:hover{background:var(--accent);}
+
+/* ===== SPA PAGES ===== */
+.page{display:none;min-height:80vh;}
+.page.active{display:block;}
+#page-home{display:block;}
+
+/* BREADCRUMB */
+.breadcrumb{
+  padding:14px 40px;font-size:11px;letter-spacing:1.5px;
+  color:var(--gray);display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.breadcrumb span{cursor:pointer;transition:color .2s;}
+.breadcrumb span:hover{color:var(--accent);}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--dark);font-weight:600;}
+
+/* CATEGORY PAGE */
+.cat-page-header{
+  padding:48px 40px 32px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+}
+.cat-page-header h1{
+  font-family:'Playfair Display',serif;font-size:38px;font-weight:700;
+}
+.cat-page-header p{color:var(--gray);font-size:13px;margin-top:6px;}
+.cat-filter-bar{
+  padding:0 40px 24px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.filter-btn{
+  padding:7px 18px;font-size:10.5px;letter-spacing:1.5px;
+  text-transform:uppercase;font-weight:600;
+  border:1.5px solid var(--border);background:#fff;color:var(--gray);
+  cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif;
+}
+.filter-btn:hover,.filter-btn.active{
+  border-color:var(--dark);color:var(--dark);background:var(--dark);color:#fff;
+}
+.filter-sort{
+  margin-left:auto;display:flex;align-items:center;gap:8px;
+  font-size:11px;color:var(--gray);letter-spacing:1px;
+}
+.filter-sort select{
+  border:1px solid var(--border);padding:6px 12px;font-size:11px;
+  font-family:'Montserrat',sans-serif;color:var(--dark);background:#fff;
+  cursor:pointer;outline:none;
+}
+.cat-products-grid{
+  padding:0 40px 60px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:28px 20px;
+}
+
+/* PRODUCT DETAIL PAGE */
+.prod-detail-wrap{
+  padding:40px 40px 60px;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;
+}
+.prod-detail-gallery{display:flex;gap:12px;}
+.gallery-thumbs{display:flex;flex-direction:column;gap:8px;}
+.gallery-thumb{
+  width:70px;height:80px;object-fit:cover;cursor:pointer;
+  border:2px solid transparent;transition:border-color .2s;
+}
+.gallery-thumb.active{border-color:var(--dark);}
+.gallery-main{flex:1;position:relative;}
+.gallery-main img{width:100%;aspect-ratio:3/4;object-fit:cover;}
+.gallery-badge{
+  position:absolute;top:16px;left:16px;
+  background:var(--accent);color:#fff;
+  font-size:9px;letter-spacing:2px;padding:5px 10px;font-weight:700;
+}
+.prod-detail-info{}
+.prod-detail-info .eyebrow{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gray);margin-bottom:8px;
+}
+.prod-detail-info h1{
+  font-family:'Playfair Display',serif;font-size:30px;font-weight:700;
+  line-height:1.2;margin-bottom:10px;
+}
+.prod-detail-info .rating{
+  display:flex;align-items:center;gap:6px;margin-bottom:16px;
+}
+.stars{color:#c49a6c;font-size:14px;letter-spacing:1px;}
+.rating-count{font-size:11px;color:var(--gray);}
+.prod-detail-price{
+  font-size:26px;font-weight:700;color:var(--dark);margin-bottom:4px;
+}
+.prod-detail-price .old-price{
+  font-size:16px;color:var(--gray);text-decoration:line-through;
+  margin-left:10px;font-weight:400;
+}
+.prod-detail-info .sku{font-size:10.5px;color:var(--gray);margin-bottom:22px;}
+.prod-opt-label{
+  font-size:10.5px;letter-spacing:2px;text-transform:uppercase;
+  font-weight:700;margin-bottom:10px;
+}
+.color-selector{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.color-swatch{
+  width:34px;height:34px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;outline:2px solid transparent;
+  transition:all .2s;
+}
+.color-swatch.active{border:2px solid #fff;outline:2px solid var(--dark);}
+.size-selector{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap;}
+.size-btn{
+  min-width:46px;padding:8px 12px;font-size:11px;letter-spacing:1px;
+  border:1.5px solid var(--border);background:#fff;cursor:pointer;
+  font-family:'Montserrat',sans-serif;font-weight:500;transition:all .2s;
+  text-align:center;
+}
+.size-btn:hover,.size-btn.active{border-color:var(--dark);background:var(--dark);color:#fff;}
+.add-to-cart-btn{
+  width:100%;padding:16px;font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;font-weight:700;
+  background:var(--dark);color:#fff;border:none;cursor:pointer;
+  font-family:'Montserrat',sans-serif;transition:background .2s;margin-bottom:12px;
+}
+.add-to-cart-btn:hover{background:var(--accent);}
+.wishlist-btn{
+  width:100%;padding:14px;font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;font-weight:600;
+  background:#fff;color:var(--dark);border:1.5px solid var(--dark);cursor:pointer;
+  font-family:'Montserrat',sans-serif;transition:all .2s;margin-bottom:24px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.wishlist-btn:hover{border-color:var(--accent);color:var(--accent);}
+.prod-detail-desc{
+  font-size:13px;line-height:1.8;color:var(--gray);margin-bottom:20px;
+  border-top:1px solid var(--border);padding-top:20px;
+}
+.prod-features{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.prod-features li{
+  font-size:12px;color:var(--gray);display:flex;align-items:center;gap:8px;
+}
+.prod-features li::before{content:'✦';font-size:8px;color:var(--accent);}
+.related-section{padding:40px 40px 60px;}
+.related-section h2{
+  font-family:'Playfair Display',serif;font-size:24px;margin-bottom:28px;
+}
+
+/* MEGA MENU DROPDOWN */
+.nav-item-wrap{position:relative;display:inline-block;}
+.nav-item-wrap .nav-item{padding-bottom:3px;}
+.mega-menu{
+  position:fixed;left:0;right:0;
+  top:85px;
+  background:#fff;
+  border-top:2px solid var(--accent);
+  box-shadow:0 12px 40px rgba(0,0,0,.12);
+  padding:36px 60px 40px;
+  display:none;
+  z-index:999;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:0 40px;
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.mega-menu.open{display:grid;opacity:1;}
+.mega-col h4{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);font-weight:700;margin-bottom:14px;
+  padding-bottom:8px;border-bottom:1px solid var(--border);
+}
+.mega-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.mega-col ul li a{
+  font-size:12px;letter-spacing:.5px;color:var(--dark);
+  font-weight:400;transition:color .2s, padding-left .2s;
+  display:block;
+}
+.mega-col ul li a:hover{color:var(--accent);padding-left:4px;}
+.mega-promo{
+  display:flex;flex-direction:column;align-items:flex-start;gap:10px;
+}
+.mega-promo img{
+  width:100%;aspect-ratio:4/3;object-fit:cover;
+}
+.mega-promo span{
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+  font-weight:600;color:var(--dark);
+}
+.mega-promo small{font-size:11px;color:var(--gray);}
+.mega-promo a.see{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  font-weight:700;color:var(--accent);border-bottom:1px solid var(--accent);
+  padding-bottom:2px;
+}
+
 /* LOGO */
 .logo-wrap{text-align:center;cursor:pointer;}
 .logo-script{
@@ -449,9 +716,18 @@ footer{background:var(--footer-bg);color:#fff;}
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <span>¿Qué estás buscando?</span>
     </div>
-    <a href="#" class="nav-item">Lo Nuevo</a>
-    <a href="#" class="nav-item">Mujer</a>
-    <a href="#" class="nav-item">Hombre</a>
+    <!-- Lo Nuevo -->
+    <div class="nav-item-wrap" data-menu="lonuevo">
+      <a href="#" class="nav-item">Lo Nuevo</a>
+    </div>
+    <!-- Mujer -->
+    <div class="nav-item-wrap" data-menu="mujer">
+      <a href="#" class="nav-item">Mujer</a>
+    </div>
+    <!-- Hombre -->
+    <div class="nav-item-wrap" data-menu="hombre">
+      <a href="#" class="nav-item">Hombre</a>
+    </div>
   </div>
 
   <!-- CENTER: logo -->
@@ -462,9 +738,18 @@ footer{background:var(--footer-bg);color:#fff;}
 
   <!-- RIGHT: nav + icons -->
   <div class="header-right">
-    <a href="#" class="nav-item">Servicios</a>
-    <a href="#" class="nav-item outlet">Outlet</a>
-    <a href="#" class="nav-item">Regalos</a>
+    <!-- Servicios -->
+    <div class="nav-item-wrap" data-menu="servicios">
+      <a href="#" class="nav-item">Servicios</a>
+    </div>
+    <!-- Outlet -->
+    <div class="nav-item-wrap" data-menu="outlet">
+      <a href="#" class="nav-item outlet">Outlet</a>
+    </div>
+    <!-- Regalos -->
+    <div class="nav-item-wrap" data-menu="regalos">
+      <a href="#" class="nav-item">Regalos</a>
+    </div>
     <div class="header-icon">
       <svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
     </div>
@@ -475,6 +760,274 @@ footer{background:var(--footer-bg);color:#fff;}
   </div>
 </header>
 
+
+
+<!-- ===== SIDE DRAWER ===== -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="side-drawer" id="side-drawer">
+  <div class="drawer-head">
+    <div>
+      <div class="drawer-head-title" id="drawer-title">Mujer</div>
+      <div class="drawer-head-sub" id="drawer-sub">COLECCIÓN 2025</div>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawer-body">
+    <!-- filled dynamically -->
+  </div>
+  <div class="drawer-foot">
+    <button class="drawer-cta" id="drawer-cta-btn" onclick="drawerCtaClick()">Ver Todo</button>
+  </div>
+</div>
+
+<!-- ===== MEGA MENUS ===== -->
+
+<!-- LO NUEVO -->
+<div class="mega-menu" id="menu-lonuevo">
+  <div class="mega-col">
+    <h4>Destacados</h4>
+    <ul>
+      <li><a href="#">Nueva Colección 2025</a></li>
+      <li><a href="#">Más Vendidos</a></li>
+      <li><a href="#">Tendencias</a></li>
+      <li><a href="#">Edición Limitada</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Mujer</h4>
+    <ul>
+      <li><a href="#">Bolsos Nuevos</a></li>
+      <li><a href="#">Carteras Nuevas</a></li>
+      <li><a href="#">Calzado Nuevo</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Hombre</h4>
+    <ul>
+      <li><a href="#">Maletines Nuevos</a></li>
+      <li><a href="#">Billeteras Nuevas</a></li>
+      <li><a href="#">Cinturones Nuevos</a></li>
+    </ul>
+  </div>
+  <div class="mega-col mega-promo">
+    <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80" alt="Lo Nuevo"/>
+    <span>Nueva Temporada</span>
+    <small>Piezas exclusivas en cuero genuino</small>
+    <a href="#" class="see">Descubrir →</a>
+  </div>
+</div>
+
+<!-- MUJER -->
+<div class="mega-menu" id="menu-mujer">
+  <div class="mega-col">
+    <h4>Bolsos</h4>
+    <ul>
+      <li><a href="#">Tote Bags</a></li>
+      <li><a href="#">Bolsos Crossbody</a></li>
+      <li><a href="#">Bolsos de Mano</a></li>
+      <li><a href="#">Bolsos Shoppers</a></li>
+      <li><a href="#">Mochilas Mujer</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Carteras & Accesorios</h4>
+    <ul>
+      <li><a href="#">Carteras Clásicas</a></li>
+      <li><a href="#">Billeteras Mujer</a></li>
+      <li><a href="#">Tarjeteros</a></li>
+      <li><a href="#">Monederos</a></li>
+      <li><a href="#">Correas & Cinturones</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Calzado</h4>
+    <ul>
+      <li><a href="#">Zapatos</a></li>
+      <li><a href="#">Botines</a></li>
+      <li><a href="#">Sandalias</a></li>
+      <li><a href="#">Mocasines</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Ver Por</h4>
+    <ul>
+      <li><a href="#">Lo Nuevo</a></li>
+      <li><a href="#">Más Vendidos</a></li>
+      <li><a href="#">Outlet Mujer</a></li>
+    </ul>
+  </div>
+  <div class="mega-col mega-promo">
+    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&q=80" alt="Mujer"/>
+    <span>Colección Mujer</span>
+    <small>Diseño y elegancia en cuero genuino</small>
+    <a href="#" class="see">Ver Todo →</a>
+  </div>
+</div>
+
+<!-- HOMBRE -->
+<div class="mega-menu" id="menu-hombre">
+  <div class="mega-col">
+    <h4>Bolsos & Maletines</h4>
+    <ul>
+      <li><a href="#">Maletines Ejecutivos</a></li>
+      <li><a href="#">Mochilas Hombre</a></li>
+      <li><a href="#">Bolsos Mensajero</a></li>
+      <li><a href="#">Portadocumentos</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Accesorios</h4>
+    <ul>
+      <li><a href="#">Billeteras Hombre</a></li>
+      <li><a href="#">Tarjeteros</a></li>
+      <li><a href="#">Cinturones</a></li>
+      <li><a href="#">Llaveros</a></li>
+      <li><a href="#">Organizadores</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Calzado</h4>
+    <ul>
+      <li><a href="#">Zapatos de Vestir</a></li>
+      <li><a href="#">Mocasines</a></li>
+      <li><a href="#">Botas</a></li>
+      <li><a href="#">Zapatillas Cuero</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Ver Por</h4>
+    <ul>
+      <li><a href="#">Lo Nuevo</a></li>
+      <li><a href="#">Más Vendidos</a></li>
+      <li><a href="#">Outlet Hombre</a></li>
+    </ul>
+  </div>
+  <div class="mega-col mega-promo">
+    <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400&q=80" alt="Hombre"/>
+    <span>Colección Hombre</span>
+    <small>Estilo y funcionalidad en cada pieza</small>
+    <a href="#" class="see">Ver Todo →</a>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<div class="mega-menu" id="menu-servicios">
+  <div class="mega-col">
+    <h4>Cuidado del Cuero</h4>
+    <ul>
+      <li><a href="#">Dr. Leather</a></li>
+      <li><a href="#">Limpieza Profesional</a></li>
+      <li><a href="#">Reparaciones</a></li>
+      <li><a href="#">Tinturado</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Compra</h4>
+    <ul>
+      <li><a href="#">Compra Online</a></li>
+      <li><a href="#">Compra por WhatsApp</a></li>
+      <li><a href="#">Venta Corporativa</a></li>
+      <li><a href="#">Click & Collect</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Atención</h4>
+    <ul>
+      <li><a href="#">Cambios y Devoluciones</a></li>
+      <li><a href="#">Preguntas Frecuentes</a></li>
+      <li><a href="#">Contacto</a></li>
+      <li><a href="#">Tiendas</a></li>
+    </ul>
+  </div>
+  <div class="mega-col mega-promo">
+    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&q=80" alt="Servicios"/>
+    <span>Dr. Leather</span>
+    <small>Expertos en restauración y cuidado del cuero</small>
+    <a href="#" class="see">Conocer más →</a>
+  </div>
+</div>
+
+<!-- OUTLET -->
+<div class="mega-menu" id="menu-outlet">
+  <div class="mega-col">
+    <h4>Outlet Mujer</h4>
+    <ul>
+      <li><a href="#">Bolsos &amp; Carteras</a></li>
+      <li><a href="#">Calzado Mujer</a></li>
+      <li><a href="#">Accesorios Mujer</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Outlet Hombre</h4>
+    <ul>
+      <li><a href="#">Maletines &amp; Bolsos</a></li>
+      <li><a href="#">Calzado Hombre</a></li>
+      <li><a href="#">Accesorios Hombre</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Descuentos</h4>
+    <ul>
+      <li><a href="#">Hasta -30%</a></li>
+      <li><a href="#">Hasta -50%</a></li>
+      <li><a href="#">Liquidación Final</a></li>
+    </ul>
+  </div>
+  <div class="mega-col mega-promo">
+    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=400&q=80" alt="Outlet"/>
+    <span>Outlet GOS</span>
+    <small>Descuentos de hasta 50% en piezas seleccionadas</small>
+    <a href="#" class="see" style="color:#8b1a1a">Ver Outlet →</a>
+  </div>
+</div>
+
+<!-- REGALOS -->
+<div class="mega-menu" id="menu-regalos">
+  <div class="mega-col">
+    <h4>Para Ella</h4>
+    <ul>
+      <li><a href="#">Bolsos Regalo</a></li>
+      <li><a href="#">Billeteras Mujer</a></li>
+      <li><a href="#">Sets de Accesorios</a></li>
+      <li><a href="#">Joyeros de Cuero</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Para Él</h4>
+    <ul>
+      <li><a href="#">Maletines Regalo</a></li>
+      <li><a href="#">Billeteras Hombre</a></li>
+      <li><a href="#">Cinturones</a></li>
+      <li><a href="#">Sets Ejecutivos</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Ocasiones</h4>
+    <ul>
+      <li><a href="#">Cumpleaños</a></li>
+      <li><a href="#">San Valentín</a></li>
+      <li><a href="#">Día de la Madre</a></li>
+      <li><a href="#">Navidad</a></li>
+      <li><a href="#">Corporativos</a></li>
+    </ul>
+  </div>
+  <div class="mega-col">
+    <h4>Servicios Regalo</h4>
+    <ul>
+      <li><a href="#">Empaque Premium</a></li>
+      <li><a href="#">Tarjeta Personalizada</a></li>
+      <li><a href="#">Gift Card GOS</a></li>
+    </ul>
+  </div>
+  <div class="mega-col mega-promo">
+    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400&q=80" alt="Regalos"/>
+    <span>El Regalo Perfecto</span>
+    <small>Cuero premium con empaque de regalo incluido</small>
+    <a href="#" class="see">Regalar Ahora →</a>
+  </div>
+</div>
+
+<div class="page active" id="page-home">
 <!-- HERO -->
 <section class="hero">
   <div class="hero-slide active">
@@ -697,6 +1250,274 @@ footer{background:var(--footer-bg);color:#fff;}
 </section>
 
 <!-- FOOTER -->
+
+<!-- ========================================================
+     PAGE: MUJER
+     ======================================================== -->
+<div class="page" id="page-mujer">
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Inicio</span>
+    <span class="sep">›</span>
+    <span class="current">Mujer</span>
+  </div>
+  <div class="cat-page-header">
+    <div>
+      <h1>Mujer</h1>
+      <p>94 productos — Colección Primavera / Verano 2025</p>
+    </div>
+  </div>
+  <div class="cat-filter-bar">
+    <button class="filter-btn active" onclick="filterCat(this,'mujer','all')">Todos</button>
+    <button class="filter-btn" onclick="filterCat(this,'mujer','bolsos')">Bolsos</button>
+    <button class="filter-btn" onclick="filterCat(this,'mujer','carteras')">Carteras</button>
+    <button class="filter-btn" onclick="filterCat(this,'mujer','billeteras')">Billeteras</button>
+    <button class="filter-btn" onclick="filterCat(this,'mujer','calzado')">Calzado</button>
+    <button class="filter-btn" onclick="filterCat(this,'mujer','accesorios')">Accesorios</button>
+    <div class="filter-sort">
+      <span>Ordenar:</span>
+      <select><option>Destacados</option><option>Menor precio</option><option>Mayor precio</option><option>Más nuevos</option></select>
+    </div>
+  </div>
+  <div class="cat-products-grid" id="grid-mujer">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ========================================================
+     PAGE: HOMBRE
+     ======================================================== -->
+<div class="page" id="page-hombre">
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Inicio</span>
+    <span class="sep">›</span>
+    <span class="current">Hombre</span>
+  </div>
+  <div class="cat-page-header">
+    <div>
+      <h1>Hombre</h1>
+      <p>67 productos — Colección Primavera / Verano 2025</p>
+    </div>
+  </div>
+  <div class="cat-filter-bar">
+    <button class="filter-btn active" onclick="filterCat(this,'hombre','all')">Todos</button>
+    <button class="filter-btn" onclick="filterCat(this,'hombre','maletines')">Maletines</button>
+    <button class="filter-btn" onclick="filterCat(this,'hombre','mochilas')">Mochilas</button>
+    <button class="filter-btn" onclick="filterCat(this,'hombre','billeteras')">Billeteras</button>
+    <button class="filter-btn" onclick="filterCat(this,'hombre','cinturones')">Cinturones</button>
+    <button class="filter-btn" onclick="filterCat(this,'hombre','calzado')">Calzado</button>
+    <div class="filter-sort">
+      <span>Ordenar:</span>
+      <select><option>Destacados</option><option>Menor precio</option><option>Mayor precio</option><option>Más nuevos</option></select>
+    </div>
+  </div>
+  <div class="cat-products-grid" id="grid-hombre">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ========================================================
+     PAGE: LO NUEVO
+     ======================================================== -->
+<div class="page" id="page-lonuevo">
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Inicio</span>
+    <span class="sep">›</span>
+    <span class="current">Lo Nuevo</span>
+  </div>
+  <div class="cat-page-header">
+    <div>
+      <h1>Lo Nuevo</h1>
+      <p>Últimas incorporaciones — Temporada 2025</p>
+    </div>
+  </div>
+  <div class="cat-filter-bar">
+    <button class="filter-btn active" onclick="filterCat(this,'lonuevo','all')">Todos</button>
+    <button class="filter-btn" onclick="filterCat(this,'lonuevo','mujer')">Mujer</button>
+    <button class="filter-btn" onclick="filterCat(this,'lonuevo','hombre')">Hombre</button>
+    <button class="filter-btn" onclick="filterCat(this,'lonuevo','accesorios')">Accesorios</button>
+    <div class="filter-sort">
+      <span>Ordenar:</span>
+      <select><option>Más nuevos</option><option>Menor precio</option><option>Mayor precio</option></select>
+    </div>
+  </div>
+  <div class="cat-products-grid" id="grid-lonuevo">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ========================================================
+     PAGE: OUTLET
+     ======================================================== -->
+<div class="page" id="page-outlet">
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Inicio</span>
+    <span class="sep">›</span>
+    <span class="current">Outlet</span>
+  </div>
+  <div class="cat-page-header">
+    <div>
+      <h1 style="color:var(--accent)">Outlet</h1>
+      <p>Descuentos de hasta 50% en piezas seleccionadas</p>
+    </div>
+  </div>
+  <div class="cat-filter-bar">
+    <button class="filter-btn active" onclick="filterCat(this,'outlet','all')">Todos</button>
+    <button class="filter-btn" onclick="filterCat(this,'outlet','mujer')">Mujer</button>
+    <button class="filter-btn" onclick="filterCat(this,'outlet','hombre')">Hombre</button>
+    <div class="filter-sort">
+      <span>Ordenar:</span>
+      <select><option>Mayor descuento</option><option>Menor precio</option><option>Mayor precio</option></select>
+    </div>
+  </div>
+  <div class="cat-products-grid" id="grid-outlet">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ========================================================
+     PAGE: REGALOS
+     ======================================================== -->
+<div class="page" id="page-regalos">
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Inicio</span>
+    <span class="sep">›</span>
+    <span class="current">Regalos</span>
+  </div>
+  <div class="cat-page-header">
+    <div>
+      <h1>Regalos</h1>
+      <p>El regalo perfecto en cuero genuino</p>
+    </div>
+  </div>
+  <div class="cat-filter-bar">
+    <button class="filter-btn active" onclick="filterCat(this,'regalos','all')">Todos</button>
+    <button class="filter-btn" onclick="filterCat(this,'regalos','ella')">Para Ella</button>
+    <button class="filter-btn" onclick="filterCat(this,'regalos','el')">Para Él</button>
+    <button class="filter-btn" onclick="filterCat(this,'regalos','sets')">Sets</button>
+    <div class="filter-sort">
+      <span>Ordenar:</span>
+      <select><option>Destacados</option><option>Menor precio</option><option>Mayor precio</option></select>
+    </div>
+  </div>
+  <div class="cat-products-grid" id="grid-regalos">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ========================================================
+     PAGE: SERVICIOS
+     ======================================================== -->
+<div class="page" id="page-servicios">
+  <div class="breadcrumb">
+    <span onclick="showPage('home')">Inicio</span>
+    <span class="sep">›</span>
+    <span class="current">Servicios</span>
+  </div>
+  <div style="padding:48px 40px 60px;max-width:900px;">
+    <h1 style="font-family:'Playfair Display',serif;font-size:38px;margin-bottom:12px;">Nuestros Servicios</h1>
+    <p style="color:var(--gray);font-size:14px;margin-bottom:40px;">Más que una tienda — somos expertos en cuero desde 1998.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+      <div style="border:1px solid var(--border);padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🩺</div>
+        <h3 style="font-size:15px;letter-spacing:1px;margin-bottom:8px;">Dr. Leather</h3>
+        <p style="font-size:13px;color:var(--gray);line-height:1.7;">Restauramos y rejuvenecemos tus piezas de cuero. Limpieza profunda, tinturado, reparación de costuras y más.</p>
+        <a href="#" style="display:inline-block;margin-top:16px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--accent);border-bottom:1px solid var(--accent);">Más info →</a>
+      </div>
+      <div style="border:1px solid var(--border);padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">💬</div>
+        <h3 style="font-size:15px;letter-spacing:1px;margin-bottom:8px;">Compra por WhatsApp</h3>
+        <p style="font-size:13px;color:var(--gray);line-height:1.7;">Asesores disponibles para ayudarte a elegir el producto ideal. Atención personalizada de lunes a sábado.</p>
+        <a href="#" style="display:inline-block;margin-top:16px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--accent);border-bottom:1px solid var(--accent);">Contactar →</a>
+      </div>
+      <div style="border:1px solid var(--border);padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🚚</div>
+        <h3 style="font-size:15px;letter-spacing:1px;margin-bottom:8px;">Delivery Express</h3>
+        <p style="font-size:13px;color:var(--gray);line-height:1.7;">Entrega en 24 horas a todo Lima. Envío gratis en compras superiores a S/ 299.</p>
+        <a href="#" style="display:inline-block;margin-top:16px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--accent);border-bottom:1px solid var(--accent);">Ver zonas →</a>
+      </div>
+      <div style="border:1px solid var(--border);padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🏪</div>
+        <h3 style="font-size:15px;letter-spacing:1px;margin-bottom:8px;">Click & Collect</h3>
+        <p style="font-size:13px;color:var(--gray);line-height:1.7;">Compra online y recoge en nuestras tiendas en Miraflores, San Isidro y La Molina sin costo adicional.</p>
+        <a href="#" style="display:inline-block;margin-top:16px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--accent);border-bottom:1px solid var(--accent);">Ver tiendas →</a>
+      </div>
+      <div style="border:1px solid var(--border);padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🎁</div>
+        <h3 style="font-size:15px;letter-spacing:1px;margin-bottom:8px;">Empaque de Regalo</h3>
+        <p style="font-size:13px;color:var(--gray);line-height:1.7;">Caja premium, papel de seda y tarjeta personalizada incluidos en todos tus regalos. Sin costo adicional.</p>
+        <a href="#" style="display:inline-block;margin-top:16px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--accent);border-bottom:1px solid var(--accent);">Regalar →</a>
+      </div>
+      <div style="border:1px solid var(--border);padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🔄</div>
+        <h3 style="font-size:15px;letter-spacing:1px;margin-bottom:8px;">Cambios y Devoluciones</h3>
+        <p style="font-size:13px;color:var(--gray);line-height:1.7;">30 días para cambios sin preguntas. Proceso simple y rápido en tienda o por courier.</p>
+        <a href="#" style="display:inline-block;margin-top:16px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--accent);border-bottom:1px solid var(--accent);">Ver política →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================
+     PAGE: PRODUCT DETAIL
+     ======================================================== -->
+<div class="page" id="page-product">
+  <div class="breadcrumb" id="prod-breadcrumb">
+    <span onclick="showPage('home')">Inicio</span>
+    <span class="sep">›</span>
+    <span id="prod-bc-cat" onclick="showPage(currentCatPage)" style="cursor:pointer">Mujer</span>
+    <span class="sep">›</span>
+    <span class="current" id="prod-bc-name">Producto</span>
+  </div>
+  <div class="prod-detail-wrap">
+    <!-- GALLERY -->
+    <div class="prod-detail-gallery">
+      <div class="gallery-thumbs" id="gallery-thumbs"></div>
+      <div class="gallery-main">
+        <img id="gallery-main-img" src="" alt="Producto"/>
+        <span class="gallery-badge" id="prod-gallery-badge"></span>
+      </div>
+    </div>
+    <!-- INFO -->
+    <div class="prod-detail-info">
+      <p class="eyebrow" id="prod-eyebrow">GOS — Cuero Genuino</p>
+      <h1 id="prod-title">Nombre del Producto</h1>
+      <div class="rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-count">(24 reseñas)</span>
+      </div>
+      <div class="prod-detail-price">
+        <span id="prod-price">S/ 0.00</span>
+        <span class="old-price" id="prod-old-price"></span>
+      </div>
+      <p class="sku" id="prod-sku">SKU: GOS-0000</p>
+
+      <p class="prod-opt-label">Color: <span id="selected-color-name" style="font-weight:400;text-transform:none;letter-spacing:0">—</span></p>
+      <div class="color-selector" id="prod-colors"></div>
+
+      <p class="prod-opt-label">Talla / Medida:</p>
+      <div class="size-selector" id="prod-sizes"></div>
+
+      <button class="add-to-cart-btn" onclick="addToCart()">
+        <svg style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.8;vertical-align:middle;margin-right:8px" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Agregar al Carrito
+      </button>
+      <button class="wishlist-btn">
+        <svg style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Guardar en Favoritos
+      </button>
+
+      <div class="prod-detail-desc" id="prod-desc">Descripción del producto.</div>
+      <ul class="prod-features" id="prod-features"></ul>
+    </div>
+  </div>
+  <!-- Related products -->
+  <div class="related-section">
+    <h2>También te puede interesar</h2>
+    <div class="cat-products-grid" id="grid-related" style="padding:0;"></div>
+  </div>
+</div>
+
+</div><!-- end page-home -->
 <footer>
   <div class="footer-top">
     <div class="foot-signup">
@@ -787,6 +1608,586 @@ footer{background:var(--footer-bg);color:#fff;}
 </div>
 
 <script>
+
+
+
+// ===== DRAWER CONFIG PER PAGE =====
+var DRAWER_CONFIG = {
+  mujer: {
+    title: 'Mujer',
+    sub: 'COLECCIÓN 2025',
+    cta: 'Ver Toda la Colección Mujer',
+    ctaPage: 'mujer',
+    sections: [
+      { heading: 'Categorías', links: [
+        {label:'Bolsos & Tote Bags', filter:'bolsos'},
+        {label:'Carteras', filter:'carteras'},
+        {label:'Billeteras & Monederos', filter:'billeteras'},
+        {label:'Calzado Mujer', filter:'calzado'},
+        {label:'Accesorios', filter:'accesorios'},
+      ]},
+      { heading: 'Destacado', promo: {
+        img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&q=80',
+        label:'Bolso Tote Premium',
+        sub:'Nuevo — S/ 390',
+        id:'m1'
+      }}
+    ]
+  },
+  hombre: {
+    title: 'Hombre',
+    sub: 'COLECCIÓN 2025',
+    cta: 'Ver Toda la Colección Hombre',
+    ctaPage: 'hombre',
+    sections: [
+      { heading: 'Categorías', links: [
+        {label:'Maletines Ejecutivos', filter:'maletines'},
+        {label:'Mochilas', filter:'mochilas'},
+        {label:'Billeteras', filter:'billeteras'},
+        {label:'Cinturones', filter:'cinturones'},
+        {label:'Calzado Hombre', filter:'calzado'},
+        {label:'Accesorios', filter:'accesorios'},
+      ]},
+      { heading: 'Destacado', promo: {
+        img:'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&q=80',
+        label:'Maletín Ejecutivo 15"',
+        sub:'Nuevo — S/ 590',
+        id:'h1'
+      }}
+    ]
+  },
+  lonuevo: {
+    title: 'Lo Nuevo',
+    sub: 'TEMPORADA 2025',
+    cta: 'Ver Todas las Novedades',
+    ctaPage: 'lonuevo',
+    sections: [
+      { heading: 'Recién Llegados', links: [
+        {label:'Novedades Mujer', filter:'mujer'},
+        {label:'Novedades Hombre', filter:'hombre'},
+        {label:'Accesorios Nuevos', filter:'accesorios'},
+      ]},
+      { heading: 'Tendencia', promo: {
+        img:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80',
+        label:'Nueva Colección 2025',
+        sub:'Diseños exclusivos',
+        id:'m2'
+      }}
+    ]
+  },
+  outlet: {
+    title: 'Outlet',
+    sub: 'HASTA -50% DSCTO.',
+    cta: 'Ver Todo el Outlet',
+    ctaPage: 'outlet',
+    sections: [
+      { heading: 'Descuentos por Categoría', links: [
+        {label:'Outlet Mujer', filter:'mujer'},
+        {label:'Outlet Hombre', filter:'hombre'},
+      ]},
+      { heading: 'Oferta Especial', promo: {
+        img:'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&q=80',
+        label:'Mochila Cuero Mujer',
+        sub:'-20% — S/ 490',
+        id:'m5'
+      }}
+    ]
+  },
+  regalos: {
+    title: 'Regalos',
+    sub: 'EL REGALO PERFECTO',
+    cta: 'Ver Todos los Regalos',
+    ctaPage: 'regalos',
+    sections: [
+      { heading: 'Para Regalar', links: [
+        {label:'Para Ella', filter:'ella'},
+        {label:'Para Él', filter:'el'},
+        {label:'Sets & Combinaciones', filter:'sets'},
+      ]},
+      { heading: 'Más Regalado', promo: {
+        img:'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&q=80',
+        label:'Billetera Slim Premium',
+        sub:'Incluye caja de regalo',
+        id:'m3'
+      }}
+    ]
+  },
+  servicios: {
+    title: 'Servicios',
+    sub: 'EXPERTOS EN CUERO',
+    cta: 'Ver Todos los Servicios',
+    ctaPage: 'servicios',
+    sections: [
+      { heading: 'Nuestros Servicios', links: [
+        {label:'Dr. Leather — Restauración', filter:null},
+        {label:'Compra por WhatsApp', filter:null},
+        {label:'Delivery Express 24h', filter:null},
+        {label:'Click & Collect', filter:null},
+        {label:'Empaque de Regalo', filter:null},
+        {label:'Cambios y Devoluciones', filter:null},
+      ]},
+      { heading: 'Destacado', promo: {
+        img:'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=500&q=80',
+        label:'Dr. Leather',
+        sub:'Restauramos tu cuero',
+        id:null
+      }}
+    ]
+  }
+};
+
+var drawerCurrentPage = null;
+
+function openDrawer(pageId) {
+  var cfg = DRAWER_CONFIG[pageId];
+  if (!cfg) return;
+  drawerCurrentPage = pageId;
+
+  document.getElementById('drawer-title').textContent = cfg.title;
+  document.getElementById('drawer-sub').textContent = cfg.sub;
+  document.getElementById('drawer-cta-btn').textContent = cfg.cta;
+
+  var bodyHtml = '';
+  cfg.sections.forEach(function(sec) {
+    bodyHtml += '<div class="drawer-section"><h4>' + sec.heading + '</h4>';
+    if (sec.links) {
+      bodyHtml += '<div class="drawer-links">';
+      sec.links.forEach(function(lnk) {
+        bodyHtml += '<div class="drawer-link" onclick="drawerLinkClick(\''+pageId+'\',\''+lnk.filter+'\')">'+
+          '<span>'+lnk.label+'</span><span class="arrow">›</span></div>';
+      });
+      bodyHtml += '</div>';
+    }
+    if (sec.promo) {
+      var p = sec.promo;
+      bodyHtml += '<div class="drawer-promo" onclick="drawerPromoClick(\''+p.id+'\')">' +
+        '<img src="'+p.img+'" alt="'+p.label+'" loading="lazy"/>' +
+        '<div class="drawer-promo-label"><span>'+p.label+'</span><small>'+p.sub+'</small></div>' +
+        '</div>';
+    }
+    bodyHtml += '</div>';
+  });
+  document.getElementById('drawer-body').innerHTML = bodyHtml;
+
+  document.getElementById('side-drawer').classList.add('open');
+  document.getElementById('drawer-overlay').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('side-drawer').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('open');
+}
+
+function drawerCtaClick() {
+  closeDrawer();
+  if (drawerCurrentPage) showPage(drawerCurrentPage);
+}
+
+function drawerLinkClick(pageId, filter) {
+  closeDrawer();
+  showPage(pageId);
+  if (filter) {
+    setTimeout(function() {
+      var bar = document.querySelector('#page-'+pageId+' .cat-filter-bar');
+      if (!bar) return;
+      var btns = bar.querySelectorAll('.filter-btn');
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btns.forEach(function(b){
+        if (b.textContent.toLowerCase().includes(filter.toLowerCase())) {
+          b.classList.add('active');
+        }
+      });
+      renderGrid(pageId, filter);
+    }, 100);
+  }
+}
+
+function drawerPromoClick(id) {
+  closeDrawer();
+  if (id) {
+    setTimeout(function(){ openProduct(id, drawerCurrentPage); }, 200);
+  }
+}
+
+// ===== PRODUCTS DATABASE =====
+var PRODUCTS = {
+  mujer: [
+    {id:'m1', name:'Bolso Tote Premium', price:'S/ 390.00', oldPrice:'', badge:'Nuevo', cat:'bolsos', gender:'mujer',
+     img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=85','https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=85','https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=85'],
+     colors:[{name:'Marrón Oscuro',hex:'#3d2b1f'},{name:'Camel',hex:'#c49a6c'},{name:'Negro',hex:'#1a1a1a'}],
+     sizes:['Único'],
+     desc:'Bolso tote espacioso confeccionado en cuero genuino de primera calidad. Interior con múltiples bolsillos organizadores, cierre magnético y asa de hombro regulable.',
+     features:['Cuero vacuno de primera calidad','Forro interior en tela resistente','Cierre magnético de latón','Asa de mano + correa de hombro regulable','Dimensiones: 38 × 32 × 14 cm']},
+    {id:'m2', name:'Cartera Cuero Clásica', price:'S/ 290.00', oldPrice:'', badge:'', cat:'carteras', gender:'mujer',
+     img:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=85','https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=85'],
+     colors:[{name:'Cognac',hex:'#8b5e3c'},{name:'Negro',hex:'#1a1a1a'}],
+     sizes:['Único'],
+     desc:'Cartera estructurada de cuero curtido al vegetal con compartimentos organizados para tarjetas, billetes y monedas.',
+     features:['Cuero curtido al vegetal','8 tarjeteros + 2 compartimentos para billetes','Cierre con broche dorado','Dimensiones: 19 × 10 × 3 cm','Incluye caja de regalo GOS']},
+    {id:'m3', name:'Billetera Slim Mujer', price:'S/ 149.00', oldPrice:'', badge:'Nuevo', cat:'billeteras', gender:'mujer',
+     img:'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&q=85'],
+     colors:[{name:'Negro',hex:'#1a1a1a'},{name:'Marrón',hex:'#3d2b1f'},{name:'Camel',hex:'#c49a6c'}],
+     sizes:['Único'],
+     desc:'Billetera minimalista de cuero con tecnología RFID para proteger tus tarjetas. Diseño ultra fino que se adapta a cualquier bolso.',
+     features:['Protección RFID integrada','6 tarjeteros + compartimento de billetes','Cuero nappa suave al tacto','Grosor: 8mm sin contenido']},
+    {id:'m4', name:'Bolso Crossbody Mini', price:'S/ 250.00', oldPrice:'', badge:'', cat:'bolsos', gender:'mujer',
+     img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=85','https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=85'],
+     colors:[{name:'Camel',hex:'#c49a6c'},{name:'Negro',hex:'#1a1a1a'},{name:'Burdeos',hex:'#8b1a1a'}],
+     sizes:['Único'],
+     desc:'Pequeño bolso bandolera ideal para el día a día. Correa regulable y compartimento con cierre para mayor seguridad.',
+     features:['Cuero genuino texturado','Correa ajustable de 60-120cm','Bolsillo trasero con cremallera','Dimensiones: 20 × 15 × 7 cm']},
+    {id:'m5', name:'Mochila Cuero Mujer', price:'S/ 490.00', oldPrice:'S/ 610.00', badge:'-20%', cat:'mochilas', gender:'mujer',
+     img:'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=85'],
+     colors:[{name:'Marrón Oscuro',hex:'#3d2b1f'},{name:'Negro',hex:'#1a1a1a'}],
+     sizes:['Único'],
+     desc:'Mochila urbana de cuero natural con múltiples compartimentos. Perfecta para trabajo y ciudad, con espacio para laptop de 13".',
+     features:['Cuero vacuno natural envejecido','Compartimento para laptop 13"','3 bolsillos interiores organizadores','Correas acolchadas regulables']},
+    {id:'m6', name:'Zapatos Oxford Cuero', price:'S/ 350.00', oldPrice:'', badge:'', cat:'calzado', gender:'mujer',
+     img:'https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800&q=85'],
+     colors:[{name:'Negro',hex:'#1a1a1a'},{name:'Marrón',hex:'#8b5e3c'}],
+     sizes:['35','36','37','38','39','40'],
+     desc:'Zapatos oxford artesanales en cuero liso con suela de cuero cosida a mano. Combinan elegancia y comodidad para el uso diario.',
+     features:['Cuero liso de primera','Suela de cuero cosida','Plantilla anatómica acolchada','Fabricados a mano en Lima']},
+    {id:'m7', name:'Botines Cuero Mujer', price:'S/ 420.00', oldPrice:'', badge:'Nuevo', cat:'calzado', gender:'mujer',
+     img:'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=85'],
+     colors:[{name:'Cognac',hex:'#8b5e3c'},{name:'Negro',hex:'#1a1a1a'}],
+     sizes:['35','36','37','38','39','40'],
+     desc:'Botines de caña baja con cierre lateral y puntera redondeada. Cuero suave y flexible desde el primer uso.',
+     features:['Cuero nappa suave','Cierre YKK lateral','Tacón bloque 4cm','Forro interior en cuero natural']},
+    {id:'m8', name:'Cinturón Trenzado Mujer', price:'S/ 119.00', oldPrice:'', badge:'', cat:'accesorios', gender:'mujer',
+     img:'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&q=85'],
+     colors:[{name:'Camel',hex:'#c49a6c'},{name:'Negro',hex:'#1a1a1a'},{name:'Cognac',hex:'#8b5e3c'}],
+     sizes:['S (70-80cm)','M (80-90cm)','L (90-100cm)'],
+     desc:'Cinturón de cuero trenzado con hebilla dorada. Ideal para dar forma a vestidos y blusas.',
+     features:['Tiras de cuero genuino trenzadas','Hebilla dorada ajustable','Ancho: 2.5cm','Disponible en 3 tallas']}
+  ],
+  hombre: [
+    {id:'h1', name:'Maletín Ejecutivo 15"', price:'S/ 590.00', oldPrice:'', badge:'Nuevo', cat:'maletines', gender:'hombre',
+     img:'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=85','https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=85'],
+     colors:[{name:'Marrón Oscuro',hex:'#3d2b1f'},{name:'Negro',hex:'#1a1a1a'}],
+     sizes:['Único'],
+     desc:'Maletín ejecutivo de cuero genuino con compartimento acolchado para laptop de 15". Herrajes en níquel satinado y doble asa reforzada.',
+     features:['Cuero vacuno plena flor','Compartimento laptop 15"','4 bolsillos organizadores','Asa de mano reforzada + correa bandolera','Dimensiones: 40 × 30 × 10 cm']},
+    {id:'h2', name:'Billetera Bifold Hombre', price:'S/ 169.00', oldPrice:'', badge:'', cat:'billeteras', gender:'hombre',
+     img:'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&q=85'],
+     colors:[{name:'Negro',hex:'#1a1a1a'},{name:'Marrón',hex:'#3d2b1f'},{name:'Cognac',hex:'#8b5e3c'}],
+     sizes:['Único'],
+     desc:'Billetera bifold clásica en cuero liso con protección RFID. 8 tarjeteros, 2 billetes y ventana para DNI.',
+     features:['Cuero liso de primera calidad','Protección RFID','8 tarjeteros + ventana DNI','Grosor mínimo con contenido']},
+    {id:'h3', name:'Mochila Urbana Hombre', price:'S/ 520.00', oldPrice:'S/ 650.00', badge:'-20%', cat:'mochilas', gender:'hombre',
+     img:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=85'],
+     colors:[{name:'Marrón Oscuro',hex:'#3d2b1f'},{name:'Negro',hex:'#1a1a1a'}],
+     sizes:['Único'],
+     desc:'Mochila de cuero natural envejecido para uso urbano y viaje. Acceso superior con cierre y bolsillo frontal con hebilla.',
+     features:['Cuero natural envejecido','Compartimento laptop 15"','Bolsillo frontal + bolsillos laterales','Correas acolchadas','Capacidad: 22L']},
+    {id:'h4', name:'Cinturón Clásico Hombre', price:'S/ 129.00', oldPrice:'', badge:'', cat:'cinturones', gender:'hombre',
+     img:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=85'],
+     colors:[{name:'Negro',hex:'#1a1a1a'},{name:'Marrón',hex:'#3d2b1f'},{name:'Cognac',hex:'#8b5e3c'}],
+     sizes:['S (80-90cm)','M (90-100cm)','L (100-110cm)','XL (110-120cm)'],
+     desc:'Cinturón de cuero de una sola pieza con hebilla de acero inoxidable. El clásico GOS que no pasa de moda.',
+     features:['Cuero de una sola pieza sin uniones','Hebilla acero inox pulida','Ancho: 3.5cm','Extremo biselado a mano']},
+    {id:'h5', name:'Zapatos Derby Cuero', price:'S/ 390.00', oldPrice:'', badge:'', cat:'calzado', gender:'hombre',
+     img:'https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800&q=85'],
+     colors:[{name:'Negro',hex:'#1a1a1a'},{name:'Marrón',hex:'#8b5e3c'}],
+     sizes:['39','40','41','42','43','44'],
+     desc:'Zapatos derby de cuero liso con suela Goodyear. Ideales para oficina o eventos formales. Fabricados artesanalmente en Lima.',
+     features:['Cuero liso curtido en Perú','Suela Goodyear welted','Plantilla de cuero natural','Horma clásica D']},
+    {id:'h6', name:'Portadocumentos Cuero', price:'S/ 220.00', oldPrice:'', badge:'Nuevo', cat:'maletines', gender:'hombre',
+     img:'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=85'],
+     colors:[{name:'Marrón Oscuro',hex:'#3d2b1f'},{name:'Negro',hex:'#1a1a1a'}],
+     sizes:['Único'],
+     desc:'Portadocumentos slim para documentos A4, tablet y accesorios. Perfecta combinación de funcionalidad y elegancia.',
+     features:['Cuero genuino','Compartimento A4 + bolsillo tablet','Cierre perimetral con cremallera','Asa de transporte','Dimensiones: 36 × 26 × 3 cm']},
+    {id:'h7', name:'Llavero Cuero Premium', price:'S/ 69.00', oldPrice:'', badge:'', cat:'accesorios', gender:'hombre',
+     img:'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=85'],
+     colors:[{name:'Marrón',hex:'#3d2b1f'},{name:'Negro',hex:'#1a1a1a'}],
+     sizes:['Único'],
+     desc:'Llavero de cuero con argolla de acero inoxidable. Pequeño detalle que hace la diferencia.',
+     features:['Cuero genuino de primera','Argolla acero inox 316L','Grabado GOS en relieve']},
+    {id:'h8', name:'Tarjetero Cuero Slim', price:'S/ 99.00', oldPrice:'', badge:'', cat:'accesorios', gender:'hombre',
+     img:'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&q=85',
+     imgs:['https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&q=85'],
+     colors:[{name:'Negro',hex:'#1a1a1a'},{name:'Cognac',hex:'#8b5e3c'}],
+     sizes:['Único'],
+     desc:'Tarjetero minimalista de cuero para 6 tarjetas. Diseño ultra slim que cabe en cualquier bolsillo.',
+     features:['Cuero plena flor','6 tarjeteros','Grosor: 5mm vacío','Costuras reforzadas en color contrastante']}
+  ]
+};
+
+// Merge all for lonuevo, outlet, regalos
+var ALL_PRODUCTS = PRODUCTS.mujer.concat(PRODUCTS.hombre);
+PRODUCTS.lonuevo = ALL_PRODUCTS.filter(function(p){ return p.badge==='Nuevo'; });
+PRODUCTS.outlet  = ALL_PRODUCTS.filter(function(p){ return p.oldPrice; });
+PRODUCTS.regalos = ALL_PRODUCTS.filter(function(p){ return ['billeteras','accesorios','carteras'].indexOf(p.cat) >= 0; });
+
+// ===== SPA ROUTING =====
+var currentPage = 'home';
+var currentCatPage = 'mujer';
+var currentProduct = null;
+
+function showPage(pageId, extra) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var el = document.getElementById('page-' + pageId);
+  if (!el) return;
+  el.classList.add('active');
+  currentPage = pageId;
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  // populate grids on demand
+  if (['mujer','hombre','lonuevo','outlet','regalos'].indexOf(pageId) >= 0) {
+    currentCatPage = pageId;
+    renderGrid(pageId, 'all');
+  }
+
+  // open side drawer when entering a category or section page
+  var drawerPages = ['mujer','hombre','lonuevo','outlet','regalos','servicios'];
+  if (drawerPages.indexOf(pageId) >= 0 && extra !== 'no-drawer') {
+    setTimeout(function(){ openDrawer(pageId); }, 300);
+  }
+}
+
+function renderGrid(pageId, filter) {
+  var list = PRODUCTS[pageId] || [];
+  if (filter && filter !== 'all') {
+    list = list.filter(function(p){ return p.cat === filter || p.gender === filter; });
+  }
+  var grid = document.getElementById('grid-' + pageId);
+  if (!grid) return;
+  grid.innerHTML = list.map(function(p){ return productCard(p, pageId); }).join('');
+}
+
+function productCard(p, returnPage) {
+  return '<div class="product-card" onclick="openProduct(\''+p.id+'\',\''+returnPage+'\')">'+
+    '<div class="prod-img">'+
+    '<img src="'+p.img+'" alt="'+p.name+'" loading="lazy"/>'+
+    (p.badge ? '<span class="prod-badge">'+p.badge+'</span>' : '')+
+    '</div>'+
+    '<div class="prod-name">'+p.name+'</div>'+
+    '<div class="prod-price">'+p.price+(p.oldPrice ? ' <span style="font-size:11px;color:var(--gray);text-decoration:line-through;font-weight:400">'+p.oldPrice+'</span>' : '')+'</div>'+
+    '<div class="prod-colors">'+
+    p.colors.map(function(c,i){ return '<div class="color-dot'+(i===0?' sel':'')+'" style="background:'+c.hex+'" title="'+c.name+'"></div>'; }).join('')+
+    '</div>'+
+    '</div>';
+}
+
+function openProduct(id, returnPage) {
+  var all = PRODUCTS.mujer.concat(PRODUCTS.hombre);
+  var prod = all.find ? all.find(function(p){ return p.id===id; }) : null;
+  if (!prod) { for(var i=0;i<all.length;i++){ if(all[i].id===id){prod=all[i];break;} } }
+  if (!prod) return;
+  currentProduct = prod;
+  currentCatPage = returnPage || 'mujer';
+
+  // breadcrumb
+  var catNames = {mujer:'Mujer',hombre:'Hombre',lonuevo:'Lo Nuevo',outlet:'Outlet',regalos:'Regalos'};
+  document.getElementById('prod-bc-cat').textContent = catNames[currentCatPage] || currentCatPage;
+  document.getElementById('prod-bc-name').textContent = prod.name;
+
+  // gallery
+  var thumbsHtml = prod.imgs.map(function(src,i){
+    return '<img class="gallery-thumb'+(i===0?' active':'')+'" src="'+src+'" onclick="switchImg(this,\''+src+'\')"/>';
+  }).join('');
+  document.getElementById('gallery-thumbs').innerHTML = thumbsHtml;
+  document.getElementById('gallery-main-img').src = prod.imgs[0];
+  var badge = document.getElementById('prod-gallery-badge');
+  badge.textContent = prod.badge || '';
+  badge.style.display = prod.badge ? 'block' : 'none';
+
+  // info
+  document.getElementById('prod-eyebrow').textContent = 'GOS — ' + (prod.cat.charAt(0).toUpperCase()+prod.cat.slice(1));
+  document.getElementById('prod-title').textContent = prod.name;
+  document.getElementById('prod-price').textContent = prod.price;
+  var oldEl = document.getElementById('prod-old-price');
+  oldEl.textContent = prod.oldPrice || '';
+  oldEl.style.display = prod.oldPrice ? 'inline' : 'none';
+  document.getElementById('prod-sku').textContent = 'SKU: GOS-' + prod.id.toUpperCase();
+  document.getElementById('prod-desc').textContent = prod.desc;
+
+  // colors
+  var colorsHtml = prod.colors.map(function(c,i){
+    return '<div class="color-swatch'+(i===0?' active':'')+'" style="background:'+c.hex+'" title="'+c.name+'" onclick="selectColor(this,\''+c.name+'\')"></div>';
+  }).join('');
+  document.getElementById('prod-colors').innerHTML = colorsHtml;
+  document.getElementById('selected-color-name').textContent = prod.colors[0].name;
+
+  // sizes
+  var sizesHtml = prod.sizes.map(function(s,i){
+    return '<button class="size-btn'+(i===0?' active':'')+'" onclick="selectSize(this)">'+s+'</button>';
+  }).join('');
+  document.getElementById('prod-sizes').innerHTML = sizesHtml;
+
+  // features
+  document.getElementById('prod-features').innerHTML = prod.features.map(function(f){
+    return '<li>'+f+'</li>';
+  }).join('');
+
+  // related
+  var related = PRODUCTS.mujer.concat(PRODUCTS.hombre).filter(function(p){ return p.id !== prod.id; }).slice(0,4);
+  document.getElementById('grid-related').innerHTML = related.map(function(p){ return productCard(p, currentCatPage); }).join('');
+
+  showPage('product');
+}
+
+function switchImg(thumb, src) {
+  document.querySelectorAll('.gallery-thumb').forEach(function(t){ t.classList.remove('active'); });
+  thumb.classList.add('active');
+  document.getElementById('gallery-main-img').src = src;
+}
+
+function selectColor(el, name) {
+  document.querySelectorAll('.color-swatch').forEach(function(s){ s.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('selected-color-name').textContent = name;
+}
+
+function selectSize(el) {
+  document.querySelectorAll('.size-btn').forEach(function(b){ b.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+function filterCat(btn, pageId, filter) {
+  btn.closest('.cat-filter-bar').querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderGrid(pageId, filter);
+}
+
+function addToCart() {
+  var badge = document.querySelector('.cart-badge');
+  var n = parseInt(badge.textContent)||0;
+  badge.textContent = n+1;
+  var btn = document.querySelector('.add-to-cart-btn');
+  btn.textContent = '✓  Agregado al Carrito';
+  btn.style.background = '#2d6a4f';
+  setTimeout(function(){
+    btn.innerHTML = '<svg style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.8;vertical-align:middle;margin-right:8px" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Agregar al Carrito';
+    btn.style.background = '';
+  }, 2000);
+}
+
+// ===== WIRE UP NAV ITEMS =====
+document.addEventListener('DOMContentLoaded', function(){
+  // Nav wraps
+  var navMap = {lonuevo:'lonuevo', mujer:'mujer', hombre:'hombre', servicios:'servicios', outlet:'outlet', regalos:'regalos'};
+  document.querySelectorAll('.nav-item-wrap').forEach(function(wrap){
+    var key = wrap.getAttribute('data-menu');
+    wrap.querySelector('.nav-item').addEventListener('click', function(e){
+      e.preventDefault();
+      showPage(key);
+      // close mega menu
+      var menu = document.getElementById('menu-'+key);
+      if(menu) menu.classList.remove('open');
+    });
+  });
+  // Logo → home
+  document.querySelector('.logo-wrap').addEventListener('click', function(e){
+    e.preventDefault(); showPage('home');
+  });
+  // Hero buttons
+  document.querySelectorAll('.btn-hero').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      var t = btn.textContent.trim().toLowerCase();
+      if(t.includes('mujer')) showPage('mujer');
+      else if(t.includes('hombre')) showPage('hombre');
+      else if(t.includes('nuevo') || t.includes('descubrir') || t.includes('nuevo')) showPage('lonuevo');
+    });
+  });
+  // Category cards on home
+  document.querySelectorAll('.cat-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      var label = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
+      if(label.includes('bolso') || label.includes('cartera')) showPage('mujer');
+      else if(label.includes('billetera')) showPage('mujer');
+      else if(label.includes('calzado')) showPage('mujer');
+      else showPage('mujer');
+    });
+  });
+  // Product cards on home
+  document.querySelectorAll('.product-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      var name = card.querySelector('.prod-name') ? card.querySelector('.prod-name').textContent : '';
+      var all = PRODUCTS.mujer.concat(PRODUCTS.hombre);
+      var found = null;
+      for(var i=0;i<all.length;i++){
+        if(all[i].name.toLowerCase() === name.toLowerCase()){ found=all[i]; break; }
+      }
+      if(found) openProduct(found.id, 'home');
+      else openProduct(PRODUCTS.mujer[0].id, 'home');
+    });
+  });
+  // mega menu links for subcategories
+  document.querySelectorAll('.mega-menu a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var menu = a.closest('.mega-menu');
+      if(!menu) return;
+      var menuId = menu.id.replace('menu-','');
+      var pageMap = {lonuevo:'lonuevo',mujer:'mujer',hombre:'hombre',servicios:'servicios',outlet:'outlet',regalos:'regalos'};
+      if(pageMap[menuId]) { showPage(pageMap[menuId]); menu.classList.remove('open'); }
+    });
+  });
+  // See all links
+  document.querySelectorAll('.see-all').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); showPage('lonuevo'); });
+  });
+  // Editorial btn
+  document.querySelectorAll('.btn-link').forEach(function(a){
+    a.addEventListener('click', function(e){ e.preventDefault(); showPage('lonuevo'); });
+  });
+});
+
+// MEGA MENU LOGIC
+var menuWrap = document.querySelectorAll('.nav-item-wrap');
+var openMenu = null;
+var closeTimer = null;
+
+function showMenu(id) {
+  clearTimeout(closeTimer);
+  if (openMenu && openMenu !== id) {
+    var prev = document.getElementById('menu-' + openMenu);
+    if (prev) prev.classList.remove('open');
+  }
+  var el = document.getElementById('menu-' + id);
+  if (el) { el.classList.add('open'); openMenu = id; }
+}
+
+function hideMenu() {
+  closeTimer = setTimeout(function() {
+    if (openMenu) {
+      var el = document.getElementById('menu-' + openMenu);
+      if (el) el.classList.remove('open');
+      openMenu = null;
+    }
+  }, 120);
+}
+
+menuWrap.forEach(function(wrap) {
+  var key = wrap.getAttribute('data-menu');
+  wrap.addEventListener('mouseenter', function() { showMenu(key); });
+  wrap.addEventListener('mouseleave', hideMenu);
+});
+
+document.querySelectorAll('.mega-menu').forEach(function(menu) {
+  menu.addEventListener('mouseenter', function() { clearTimeout(closeTimer); });
+  menu.addEventListener('mouseleave', hideMenu);
+});
+
 // POPUP after 2.5s
 setTimeout(function(){
   document.getElementById('popup').style.display='flex';
