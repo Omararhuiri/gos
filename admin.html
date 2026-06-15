@@ -588,10 +588,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);display:fle
 
 <div class="toast" id="toast"></div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+<!-- Firebase compat (global) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+// FIREBASE INIT
 const firebaseConfig = {
   apiKey: "AIzaSyDaRnTa7gNtuFSC-Dpy47osXIAOCZabq8o",
   authDomain: "gos-store.firebaseapp.com",
@@ -600,38 +601,29 @@ const firebaseConfig = {
   messagingSenderId: "895961118503",
   appId: "1:895961118503:web:a67094a0ec3b6639201b02"
 };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// ══════════════════════════
-// FIREBASE STORAGE HELPERS
-// ══════════════════════════
-async function fbSave(key, value) {
-  try {
-    await setDoc(doc(db, 'store', key), { data: JSON.stringify(value) });
-    localStorage.setItem(key, JSON.stringify(value)); // keep local cache
-  } catch(e) { console.error('fbSave error', e); }
+function fbSave(key, value) {
+  db.collection('store').doc(key).set({ data: JSON.stringify(value) }).catch(e=>console.error('fbSave',e));
 }
-async function fbLoad(key) {
-  try {
-    const snap = await getDoc(doc(db, 'store', key));
-    if (snap.exists()) {
-      const val = JSON.parse(snap.data().data);
-      localStorage.setItem(key, JSON.stringify(val));
-      return val;
-    }
-  } catch(e) { console.error('fbLoad error', e); }
-  // fallback to localStorage
-  try { return JSON.parse(localStorage.getItem(key)||'null'); } catch(e){ return null; }
+async function fbLoadAll() {
+  const keys = ['gos_products','gos_collections','gos_hero','gos_discounts','gos_orders','gos_settings'];
+  for (const key of keys) {
+    try {
+      const snap = await db.collection('store').doc(key).get();
+      if (snap.exists) localStorage.setItem(key, snap.data().data);
+    } catch(e) {}
+  }
 }
-
+</script>
+<script>
 // ══════════════════════════
 // STORAGE
 // ══════════════════════════
 const KEYS={products:'gos_products',collections:'gos_collections',hero:'gos_hero',discounts:'gos_discounts',orders:'gos_orders',settings:'gos_settings'};
 const load=k=>{try{const d=JSON.parse(localStorage.getItem(k)||'null');return d;}catch(e){return null;}};
-const save=async(k,v)=>{localStorage.setItem(k,JSON.stringify(v));await fbSave(k,v);};
+const save=(k,v)=>{localStorage.setItem(k,JSON.stringify(v));fbSave(k,v);};
 const uid=()=>'id'+Date.now()+Math.random().toString(36).slice(2,5);
 
 function getProducts(){const d=load(KEYS.products);return Array.isArray(d)&&d.length?d:defaultProducts();}
@@ -792,7 +784,7 @@ function saveProduct(){
   save(KEYS.products,prods);
   closeModal('productModal');
   renderProducts();
-  renderDashboard();
+  fbLoadAll().then(()=>renderDashboard());
   toast(pmEditId?'Producto actualizado':'Producto agregado','ok');
 }
 
@@ -800,7 +792,7 @@ function deleteProduct(id){
   if(!confirm('¿Eliminar este producto?'))return;
   let prods=getProducts().filter(x=>x.id!==id);
   save(KEYS.products,prods.length?prods:[]);
-  renderProducts();renderDashboard();
+  renderProducts();fbLoadAll().then(()=>renderDashboard());
   toast('Producto eliminado');
 }
 
@@ -1144,7 +1136,7 @@ function toast(msg,type=''){
 // ══════════════════════════
 // INIT
 // ══════════════════════════
-renderDashboard();
+fbLoadAll().then(()=>renderDashboard());
 </script>
 </body>
 </html>
