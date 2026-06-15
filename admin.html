@@ -586,6 +586,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--black);display:fle
   </div>
 </div>
 
+<!-- NAV PANEL -->
+<div class="panel" id="panelNav">
+  <div id="navList"></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- Firebase compat (global) -->
@@ -608,7 +613,7 @@ function fbSave(key, value) {
   db.collection('store').doc(key).set({ data: JSON.stringify(value) }).catch(e=>console.error('fbSave',e));
 }
 async function fbLoadAll() {
-  const keys = ['gos_products','gos_collections','gos_hero','gos_discounts','gos_orders','gos_settings'];
+  const keys = ['gos_products','gos_collections','gos_hero','gos_discounts','gos_orders','gos_settings','gos_nav'];
   for (const key of keys) {
     try {
       const snap = await db.collection('store').doc(key).get();
@@ -621,7 +626,7 @@ async function fbLoadAll() {
 // ══════════════════════════
 // STORAGE
 // ══════════════════════════
-const KEYS={products:'gos_products',collections:'gos_collections',hero:'gos_hero',discounts:'gos_discounts',orders:'gos_orders',settings:'gos_settings'};
+const KEYS={products:'gos_products',collections:'gos_collections',hero:'gos_hero',discounts:'gos_discounts',orders:'gos_orders',settings:'gos_settings',nav:'gos_nav'};
 const load=k=>{try{const d=JSON.parse(localStorage.getItem(k)||'null');return d;}catch(e){return null;}};
 const save=(k,v)=>{localStorage.setItem(k,JSON.stringify(v));fbSave(k,v);};
 const uid=()=>'id'+Date.now()+Math.random().toString(36).slice(2,5);
@@ -632,6 +637,15 @@ function getHero(){const d=load(KEYS.hero);return Array.isArray(d)&&d.length?d:d
 function getDiscounts(){const d=load(KEYS.discounts);return Array.isArray(d)?d:[];}
 function getOrders(){const d=load(KEYS.orders);return Array.isArray(d)?d:[];}
 function getSettings(){return load(KEYS.settings)||{name:'GOS',slogan:'Bolsos de lujo',wa:'+51999999999',email:'info@gos.com',freeShip:150,shipCost:12};}
+function getNav(){const d=load(KEYS.nav);return Array.isArray(d)&&d.length?d:defaultNav();}
+function defaultNav(){return[
+  {id:'n1',label:'Inicio',type:'all',value:'',active:true},
+  {id:'n2',label:'Lo Nuevo',type:'badge',value:'new',active:true},
+  {id:'n3',label:'Mujer',type:'all',value:'',active:true},
+  {id:'n4',label:'Sale',type:'badge',value:'sale',active:true},
+  {id:'n5',label:'Servicios',type:'all',value:'',active:true},
+  {id:'n6',label:'Regalos',type:'all',value:'',active:true},
+];}
 
 function defaultProducts(){
   return[
@@ -653,15 +667,17 @@ function defaultHero(){
 // ══════════════════════════
 // NAVIGATION
 // ══════════════════════════
-const panels={dashboard:'panelDashboard',products:'panelProducts',collections:'panelCollections',hero:'panelHero',discounts:'panelDiscounts',orders:'panelOrders',settings:'panelSettings'};
-const titles={dashboard:'Dashboard',products:'Productos',collections:'Colecciones',hero:'Secciones Hero',discounts:'Descuentos',orders:'Pedidos',settings:'Configuración'};
+const panels={dashboard:'panelDashboard',products:'panelProducts',collections:'panelCollections',hero:'panelHero',discounts:'panelDiscounts',orders:'panelOrders',settings:'panelSettings',nav:'panelNav'};
+const titles={dashboard:'Dashboard',products:'Productos',collections:'Colecciones',hero:'Secciones Hero',discounts:'Descuentos',orders:'Pedidos',settings:'Configuración',nav:'Navegación'};
 const topbarBtns={
   products:`<button class="tb-btn primary" onclick="openProductModal()">+ Nuevo producto</button>`,
   collections:`<button class="tb-btn primary" onclick="openCollectionModal()">+ Nueva colección</button>`,
   hero:`<button class="tb-btn primary" onclick="openHeroModal()">+ Nuevo slide</button>`,
   discounts:`<button class="tb-btn primary" onclick="openDiscountModal()">+ Nuevo descuento</button>`,
+  nav:`<button class="tb-btn primary" onclick="openNavModal()">+ Nuevo ítem</button>`,
   orders:'',settings:'',dashboard:''
 };
+
 
 function nav(page){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -672,7 +688,7 @@ function nav(page){
   // Activate sidebar item
   document.querySelectorAll('.sb-item').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+page+"'"))b.classList.add('active');});
   // Render
-  const renders={products:renderProducts,collections:renderCollections,hero:renderHero,discounts:renderDiscounts,orders:renderOrders,dashboard:renderDashboard,settings:loadSettings};
+  const renders={products:renderProducts,collections:renderCollections,hero:renderHero,discounts:renderDiscounts,orders:renderOrders,dashboard:renderDashboard,settings:loadSettings,nav:renderNav};
   if(renders[page]) renders[page]();
 }
 
@@ -1137,6 +1153,115 @@ function toast(msg,type=''){
 // INIT
 // ══════════════════════════
 fbLoadAll().then(()=>renderDashboard());
+
+
+// ══════════════════════════
+// NAVEGACIÓN
+// ══════════════════════════
+const NAV_TYPES = [{v:'all',l:'Todos los productos'},{v:'badge',l:'Por badge (new/sale)'},{v:'collection',l:'Por colección'},{v:'none',l:'Sin filtro (informativo)'}];
+
+function renderNav(){
+  const items = getNav();
+  const colls = getCollections();
+  const el = document.getElementById('navList');
+  el.innerHTML = `
+    <div class="dash-card" style="margin-bottom:16px">
+      <p style="font-size:12px;color:var(--gray);line-height:1.7;margin-bottom:0">Configura los ítems del menú de navegación de la tienda. Arrastra para reordenar. Cada ítem puede filtrar productos por badge, colección, o mostrar todos.</p>
+    </div>
+    <div class="table-wrap"><table class="table"><thead><tr><th>Orden</th><th>Nombre</th><th>Tipo de filtro</th><th>Valor</th><th>Visible</th><th>Acciones</th></tr></thead>
+    <tbody>${items.map((item,i)=>`<tr>
+      <td style="color:var(--gray);font-size:13px">${i+1}</td>
+      <td><strong>${item.label}</strong></td>
+      <td><span style="font-size:11px;background:var(--bg);padding:2px 8px;border-radius:4px;border:1px solid var(--border)">${NAV_TYPES.find(t=>t.v===item.type)?.l||item.type}</span></td>
+      <td style="font-size:12px;color:var(--gray)">${item.value||'—'}</td>
+      <td><span style="font-size:11px;padding:2px 8px;border-radius:4px;background:${item.active!==false?'#dcfce7':'#fee2e2'};color:${item.active!==false?'var(--green)':'var(--red)'}">${item.active!==false?'Visible':'Oculto'}</span></td>
+      <td class="row-actions">
+        <button class="tb-btn" onclick="openNavModal('${item.id}')">Editar</button>
+        <button class="tb-btn danger" onclick="deleteNavItem('${item.id}')">Eliminar</button>
+      </td>
+    </tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+function deleteNavItem(id){
+  if(!confirm('¿Eliminar este ítem del menú?')) return;
+  const items = getNav().filter(n=>n.id!==id);
+  save(KEYS.nav, items);
+  renderNav();
+  toast('Ítem eliminado');
+}
+
+function openNavModal(id){
+  const items = getNav();
+  const item = id ? items.find(n=>n.id===id) : null;
+  const colls = getCollections();
+  const collOpts = colls.map(c=>`<option value="${c.id}" ${item&&item.value===c.id?'selected':''}>${c.name}</option>`).join('');
+  const m = document.createElement('div');
+  m.id = 'navModal';
+  m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px';
+  m.innerHTML = `<div style="background:#fff;border-radius:10px;padding:28px;width:100%;max-width:480px;position:relative">
+    <button onclick="document.getElementById('navModal').remove()" style="position:absolute;top:12px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray)">×</button>
+    <h3 style="margin-bottom:20px;font-size:15px">${item?'Editar ítem':'Nuevo ítem de navegación'}</h3>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <label style="font-size:12px;font-weight:500">Nombre del ítem
+        <input id="ni_label" style="display:block;width:100%;margin-top:5px;padding:9px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:var(--font)" value="${item?item.label:''}" placeholder="Ej: Mujer, Hombre, Sale..."/>
+      </label>
+      <label style="font-size:12px;font-weight:500">Tipo de filtro
+        <select id="ni_type" onchange="updateNavValueField()" style="display:block;width:100%;margin-top:5px;padding:9px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:var(--font)">
+          ${NAV_TYPES.map(t=>`<option value="${t.v}" ${item&&item.type===t.v?'selected':''}>${t.l}</option>`).join('')}
+        </select>
+      </label>
+      <div id="ni_value_wrap">
+        <label style="font-size:12px;font-weight:500">Valor del filtro
+          <input id="ni_value" style="display:block;width:100%;margin-top:5px;padding:9px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:var(--font)" value="${item?item.value||'':''}" placeholder="Ej: new, sale, o ID de colección"/>
+        </label>
+        <p id="ni_hint" style="font-size:11px;color:var(--gray);margin-top:4px"></p>
+      </div>
+      <label style="font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px">
+        <input type="checkbox" id="ni_active" ${!item||item.active!==false?'checked':''} style="width:15px;height:15px"/>
+        Visible en la tienda
+      </label>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:22px">
+      <button class="tb-btn primary" onclick="saveNavItem('${item?item.id:''}')" style="flex:1;padding:10px">Guardar</button>
+      <button class="tb-btn" onclick="document.getElementById('navModal').remove()" style="padding:10px 18px">Cancelar</button>
+    </div>
+  </div>`;
+  document.body.appendChild(m);
+  updateNavValueField();
+}
+
+function updateNavValueField(){
+  const type = document.getElementById('ni_type')?.value;
+  const hint = document.getElementById('ni_hint');
+  const wrap = document.getElementById('ni_value_wrap');
+  if(!hint||!wrap) return;
+  if(type==='all'||type==='none'){wrap.style.display='none';}
+  else{wrap.style.display='block';}
+  if(type==='badge') hint.textContent = 'Escribe: new (nuevos) o sale (ofertas)';
+  else if(type==='collection') hint.textContent = 'Escribe el nombre de la colección (ej: Mujer, Hombre)';
+  else hint.textContent = '';
+}
+
+function saveNavItem(id){
+  const label = document.getElementById('ni_label').value.trim();
+  const type = document.getElementById('ni_type').value;
+  const value = (document.getElementById('ni_value')?.value||'').trim();
+  const active = document.getElementById('ni_active').checked;
+  if(!label){toast('El nombre es obligatorio','red');return;}
+  const items = getNav();
+  if(id){
+    const idx = items.findIndex(n=>n.id===id);
+    if(idx>-1) items[idx]={...items[idx],label,type,value,active};
+  } else {
+    items.push({id:'n'+Date.now(),label,type,value,active});
+  }
+  save(KEYS.nav, items);
+  document.getElementById('navModal').remove();
+  renderNav();
+  toast('✓ Ítem guardado');
+}
+
 </script>
 </body>
 </html>
