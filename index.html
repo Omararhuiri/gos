@@ -31,6 +31,7 @@ header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1
 .header-nav{flex:1;display:flex;align-items:center;justify-content:center;gap:4px}
 .header-nav button{background:none;border:none;cursor:pointer;font-family:var(--font);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--black);padding:8px 13px;position:relative;white-space:nowrap;transition:color .2s}
 .header-nav button:hover{color:var(--red)}
+.header-nav button.sale-nav{color:var(--red)}
 .header-nav button.active-nav::after{content:'';position:absolute;bottom:0;left:13px;right:13px;height:2px;background:var(--black)}
 .logo{font-family:var(--font-d);font-weight:300;font-size:26px;letter-spacing:.18em;text-decoration:none;color:var(--black);cursor:pointer;display:none}
 .header-icons{display:flex;gap:18px;align-items:center;flex:0 0 auto}
@@ -38,14 +39,14 @@ header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1
 .header-icons svg{width:21px;height:21px;stroke:var(--black);fill:none;stroke-width:1.5;display:block}
 .cart-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600}
 
-/* NAV mobile fallback */
-nav{display:none}
+/* NAV mobile */
+nav{display:none;border-bottom:1px solid var(--border)}
 .nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;overflow-x:auto}
-nav button{padding:12px 16px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--black);white-space:nowrap;cursor:pointer;background:none;border:none;font-family:var(--font);transition:color .2s}
-nav button:hover{color:var(--red)}
-nav button.sale{color:var(--red);font-weight:500}
+.nav-inner button{padding:12px 16px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--black);white-space:nowrap;cursor:pointer;background:none;border:none;font-family:var(--font);transition:color .2s}
+.nav-inner button:hover{color:var(--red)}
+.nav-inner button.sale-nav{color:var(--red);font-weight:500}
 @media(max-width:768px){
-  nav{display:block;border-bottom:1px solid var(--border)}
+  nav{display:block}
   .header-nav{display:none}
   .header-search{display:none}
   .logo{display:block}
@@ -217,23 +218,12 @@ footer{background:var(--black);color:rgba(255,255,255,.5);padding:44px 24px 28px
   <div class="topbar" id="topbarBanner">🎁 ENVÍO GRATIS EN COMPRAS MAYORES A $150</div>
   <header>
     <div class="header-inner">
-      <!-- Search -->
       <div class="header-search">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" placeholder="¿Qué estás buscando?" id="searchInput" oninput="searchProducts(this.value)"/>
       </div>
-      <!-- Nav central -->
-      <nav class="header-nav">
-        <button class="active-nav" onclick="applyFilter('','');setActiveNav(this)">Inicio</button>
-        <button onclick="applyFilter('badge','new');setActiveNav(this)">Lo Nuevo</button>
-        <button onclick="applyFilter('brand','');setActiveNav(this)">Mujer</button>
-        <button onclick="applyFilter('badge','sale');setActiveNav(this)" style="color:var(--red)">Sale</button>
-        <button onclick="applyFilter('','');setActiveNav(this)">Servicios</button>
-        <button onclick="applyFilter('','');setActiveNav(this)">Regalos</button>
-      </nav>
-      <!-- Logo (mobile) -->
-      <span class="logo" onclick="showStore()">LUXEBAG</span>
-      <!-- Icons -->
+      <nav class="header-nav" id="headerNav"></nav>
+      <span class="logo" onclick="applyFilter('','')">LUXEBAG</span>
       <div class="header-icons">
         <button onclick="openWhatsApp()" title="WhatsApp">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -249,14 +239,7 @@ footer{background:var(--black);color:rgba(255,255,255,.5);padding:44px 24px 28px
     </div>
   </header>
   <nav>
-    <div class="nav-inner">
-      <button onclick="applyFilter('','')">Inicio</button>
-      <button onclick="applyFilter('badge','new')">Lo Nuevo</button>
-      <button onclick="applyFilter('brand','')">Mujer</button>
-      <button class="sale" onclick="applyFilter('badge','sale')">Sale</button>
-      <button onclick="applyFilter('','')">Servicios</button>
-      <button onclick="applyFilter('','')">Regalos</button>
-    </div>
+    <div class="nav-inner" id="mobileNav"></div>
   </nav>
 
   <!-- HERO -->
@@ -375,19 +358,19 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 async function fbLoadAll() {
-  // Load products from Firestore (saved by admin as 'gos_products') into the store key
-  try {
-    const snap = await db.collection('store').doc('gos_products').get();
-    if (snap.exists) {
-      localStorage.setItem('luxebag_products', snap.data().data);
-    }
-  } catch(e) { console.error('fbLoadAll error', e); }
-  // Also sync orders back to admin key
-  try {
-    const snap = await db.collection('store').doc('luxebag_orders').get();
-    if (snap.exists) localStorage.setItem('luxebag_orders', snap.data().data);
-  } catch(e) {}
+  const keys = ['gos_products','gos_hero','gos_settings','gos_orders','gos_nav'];
+  for (const key of keys) {
+    try {
+      const snap = await db.collection('store').doc(key).get();
+      if (snap.exists) localStorage.setItem(key, snap.data().data);
+    } catch(e) {}
+  }
 }
+// Real-time listeners
+db.collection('store').doc('gos_products').onSnapshot(snap=>{if(snap.exists){localStorage.setItem('gos_products',snap.data().data);renderStore();}});
+db.collection('store').doc('gos_hero').onSnapshot(snap=>{if(snap.exists){localStorage.setItem('gos_hero',snap.data().data);renderHero();}});
+db.collection('store').doc('gos_nav').onSnapshot(snap=>{if(snap.exists){localStorage.setItem('gos_nav',snap.data().data);renderNavBar();}});
+
 </script>
 <script>
 const PKEY='gos_products', CKEY='luxebag_cart', OKEY='gos_orders';
@@ -528,6 +511,55 @@ function hGo(n){
 }
 function hSlide(d){hGo(hC+d);}
 setInterval(()=>hSlide(1),5000);
+
+// NAVBAR RENDER FROM ADMIN CONFIG
+function getNavItems(){
+  try{const d=JSON.parse(localStorage.getItem('gos_nav')||'null');return Array.isArray(d)&&d.length?d.filter(n=>n.active!==false):null;}catch(e){return null;}
+}
+function navFilter(type,value){
+  storeFilter={type:type==='badge'?'badge':type==='collection'?'collection':'',value:value||''};
+  renderStore();showStore();
+}
+function renderNavBar(){
+  const items = getNavItems();
+  if(!items||!items.length) return;
+  const desktop = document.getElementById('headerNav');
+  const mobile = document.getElementById('mobileNav');
+  const btns = items.map((item,i)=>{
+    const isSale = item.type==='badge'&&item.value==='sale';
+    return `<button class="${i===0?'active-nav':''}${isSale?' sale-nav':''}" onclick="navFilter('${item.type}','${item.value}');setActiveNav(this)">${item.label}</button>`;
+  }).join('');
+  if(desktop) desktop.innerHTML=btns;
+  if(mobile) mobile.innerHTML=btns.replace(/active-nav/g,'').replace(/class=""/g,'');
+}
+function setActiveNav(btn){
+  document.querySelectorAll('.header-nav button,.nav-inner button').forEach(b=>b.classList.remove('active-nav'));
+  btn.classList.add('active-nav');
+}
+function searchProducts(q){
+  const all=loadP();
+  const filtered=q?all.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())||p.brand.toLowerCase().includes(q.toLowerCase())):all;
+  const grid=document.getElementById('productsGrid');
+  if(!filtered.length){grid.innerHTML=`<div class="empty-grid"><span class="eicon">🔍</span><p>Sin resultados para "${q}"</p></div>`;return;}
+  grid.innerHTML=filtered.map(p=>{
+    const hd=p.salePrice&&p.salePrice<p.price;
+    const pct=hd?Math.round((1-p.salePrice/p.price)*100):0;
+    const badge=p.badge==='sale'&&hd?`<span class="pbadge sale">${pct}% OFF</span>`:p.badge==='new'?`<span class="pbadge new">New</span>`:'';
+    const ph=hd?`<span class="off">$${p.salePrice.toFixed(2)}</span> <span class="orig">$${p.price.toFixed(2)}</span>`:`$${p.price.toFixed(2)}`;
+    return `<div class="pcard" onclick="openDetail('${p.id}')"><div class="pcard-img">${badge}<img src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=60'"/></div><p class="pcard-brand">${p.brand}</p><p class="pcard-name">${p.name}</p><p class="pcard-price">${ph}</p></div>`;
+  }).join('');
+}
+function openWhatsApp(){
+  try{const s=JSON.parse(localStorage.getItem('gos_settings')||'null');const wa=s&&s.wa?s.wa:'+51999999999';window.open('https://wa.me/'+wa.replace(/\D/g,''),'_blank');}catch(e){}
+}
+function applySettings(){
+  try{
+    const s=JSON.parse(localStorage.getItem('gos_settings')||'null');
+    if(!s) return;
+    if(s.name) document.querySelectorAll('.logo').forEach(el=>el.textContent=s.name);
+    if(s.freeShip) document.querySelectorAll('.topbar').forEach(el=>el.textContent=`🎁 ENVÍO GRATIS EN COMPRAS MAYORES A $${s.freeShip}`);
+  }catch(e){}
+}
 function applySettings(){
   try{
     const s=JSON.parse(localStorage.getItem('gos_settings')||'null');
@@ -600,7 +632,7 @@ function toast(msg,type=''){const el=document.getElementById('toast');el.textCon
 // Listen for product updates from admin.html (same origin)
 window.addEventListener('storage',e=>{if(e.key===PKEY||e.key==='gos_products')renderStore();if(e.key==='gos_hero')renderHero();});
 
-fbLoadAll().then(()=>{updateBadge();renderStore();renderHero();applySettings();});
+fbLoadAll().then(()=>{updateBadge();renderStore();renderHero();renderNavBar();applySettings();});
 </script>
 </body>
 </html>
