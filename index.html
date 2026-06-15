@@ -19,23 +19,38 @@ body{font-family:var(--font);color:var(--black);background:var(--white);overflow
 .page{display:none}.page.active{display:block}
 
 /* TOPBAR */
-.topbar{background:var(--black);color:#fff;text-align:center;font-size:11px;letter-spacing:.1em;padding:8px 16px}
+.topbar{background:var(--black);color:#fff;text-align:center;font-size:11px;letter-spacing:.12em;padding:9px 16px;font-weight:400}
 
 /* HEADER */
 header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--border)}
-.header-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:var(--font-d);font-weight:300;font-size:26px;letter-spacing:.18em;text-decoration:none;color:var(--black);cursor:pointer}
-.header-icons{display:flex;gap:20px;align-items:center}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 28px;height:68px;display:flex;align-items:center;gap:16px}
+.header-search{flex:0 0 220px;position:relative}
+.header-search input{width:100%;border:1px solid var(--border);border-radius:3px;padding:8px 14px 8px 36px;font-size:12px;font-family:var(--font);color:var(--black);outline:none;background:#fafafa}
+.header-search input::placeholder{color:#aaa}
+.header-search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--gray);fill:none;stroke-width:2;pointer-events:none}
+.header-nav{flex:1;display:flex;align-items:center;justify-content:center;gap:4px}
+.header-nav button{background:none;border:none;cursor:pointer;font-family:var(--font);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--black);padding:8px 13px;position:relative;white-space:nowrap;transition:color .2s}
+.header-nav button:hover{color:var(--red)}
+.header-nav button.active-nav::after{content:'';position:absolute;bottom:0;left:13px;right:13px;height:2px;background:var(--black)}
+.logo{font-family:var(--font-d);font-weight:300;font-size:26px;letter-spacing:.18em;text-decoration:none;color:var(--black);cursor:pointer;display:none}
+.header-icons{display:flex;gap:18px;align-items:center;flex:0 0 auto}
 .header-icons button{background:none;border:none;cursor:pointer;padding:4px;position:relative}
-.header-icons svg{width:20px;height:20px;stroke:var(--black);fill:none;stroke-width:1.6;display:block}
+.header-icons svg{width:21px;height:21px;stroke:var(--black);fill:none;stroke-width:1.5;display:block}
 .cart-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600}
 
-/* NAV */
-nav{border-bottom:1px solid var(--border)}
+/* NAV mobile fallback */
+nav{display:none}
 .nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;overflow-x:auto}
 nav button{padding:12px 16px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--black);white-space:nowrap;cursor:pointer;background:none;border:none;font-family:var(--font);transition:color .2s}
 nav button:hover{color:var(--red)}
 nav button.sale{color:var(--red);font-weight:500}
+@media(max-width:768px){
+  nav{display:block;border-bottom:1px solid var(--border)}
+  .header-nav{display:none}
+  .header-search{display:none}
+  .logo{display:block}
+  .header-inner{justify-content:space-between}
+}
 
 /* HERO */
 .hero{position:relative;height:500px;overflow:hidden;background:#1a1a1a}
@@ -199,13 +214,34 @@ footer{background:var(--black);color:rgba(255,255,255,.5);padding:44px 24px 28px
 
 <!-- ══ STORE ══ -->
 <div id="storePage" class="page active">
-  <div class="topbar">🎁 Envío GRATIS en compras mayores a $150</div>
+  <div class="topbar" id="topbarBanner">🎁 ENVÍO GRATIS EN COMPRAS MAYORES A $150</div>
   <header>
     <div class="header-inner">
+      <!-- Search -->
+      <div class="header-search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="¿Qué estás buscando?" id="searchInput" oninput="searchProducts(this.value)"/>
+      </div>
+      <!-- Nav central -->
+      <nav class="header-nav">
+        <button class="active-nav" onclick="applyFilter('','');setActiveNav(this)">Inicio</button>
+        <button onclick="applyFilter('badge','new');setActiveNav(this)">Lo Nuevo</button>
+        <button onclick="applyFilter('brand','');setActiveNav(this)">Mujer</button>
+        <button onclick="applyFilter('badge','sale');setActiveNav(this)" style="color:var(--red)">Sale</button>
+        <button onclick="applyFilter('','');setActiveNav(this)">Servicios</button>
+        <button onclick="applyFilter('','');setActiveNav(this)">Regalos</button>
+      </nav>
+      <!-- Logo (mobile) -->
       <span class="logo" onclick="showStore()">LUXEBAG</span>
+      <!-- Icons -->
       <div class="header-icons">
-        <button onclick="showStore()"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></button>
-        <button onclick="openCart()" style="position:relative">
+        <button onclick="openWhatsApp()" title="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </button>
+        <button title="Mi cuenta">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+        <button onclick="openCart()" style="position:relative" title="Carrito">
           <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <span class="cart-badge" id="cartBadge" style="display:none">0</span>
         </button>
@@ -214,10 +250,12 @@ footer{background:var(--black);color:rgba(255,255,255,.5);padding:44px 24px 28px
   </header>
   <nav>
     <div class="nav-inner">
+      <button onclick="applyFilter('','')">Inicio</button>
+      <button onclick="applyFilter('badge','new')">Lo Nuevo</button>
+      <button onclick="applyFilter('brand','')">Mujer</button>
       <button class="sale" onclick="applyFilter('badge','sale')">Sale</button>
-      <button onclick="applyFilter('','')">Todos</button>
-      <button onclick="applyFilter('badge','new')">Nuevos</button>
-      <button onclick="applyFilter('brand','')">Por Marca</button>
+      <button onclick="applyFilter('','')">Servicios</button>
+      <button onclick="applyFilter('','')">Regalos</button>
     </div>
   </nav>
 
@@ -502,6 +540,60 @@ function applySettings(){
   }catch(e){}
 }
 
+// HEADER HELPERS
+function setActiveNav(btn){document.querySelectorAll('.header-nav button, nav button').forEach(b=>b.classList.remove('active-nav'));btn.classList.add('active-nav');}
+function searchProducts(q){
+  const all=loadP();
+  const filtered=q?all.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())||p.brand.toLowerCase().includes(q.toLowerCase())):all;
+  const grid=document.getElementById('productsGrid');
+  if(!filtered.length){grid.innerHTML=`<div class="empty-grid"><span class="eicon">🔍</span><p>Sin resultados para "${q}"</p></div>`;return;}
+  grid.innerHTML=filtered.map(p=>{
+    const hd=p.salePrice&&p.salePrice<p.price;
+    const pct=hd?Math.round((1-p.salePrice/p.price)*100):0;
+    const badge=p.badge==='sale'&&hd?`<span class="pbadge sale">${pct}% OFF</span>`:p.badge==='new'?`<span class="pbadge new">New</span>`:'';
+    const ph=hd?`<span class="off">$${p.salePrice.toFixed(2)}</span> <span class="orig">$${p.price.toFixed(2)}</span>`:`$${p.price.toFixed(2)}`;
+    return `<div class="pcard" onclick="openDetail('${p.id}')"><div class="pcard-img">${badge}<img src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=60'"/></div><p class="pcard-brand">${p.brand}</p><p class="pcard-name">${p.name}</p><p class="pcard-price">${ph}</p></div>`;
+  }).join('');
+}
+function openWhatsApp(){
+  try{const s=JSON.parse(localStorage.getItem('gos_settings')||'null');const wa=s&&s.wa?s.wa:'+51999999999';window.open('https://wa.me/'+wa.replace(/\D/g,''),'_blank');}catch(e){}
+}
+// HEADER HELPERS
+function setActiveNav(btn){document.querySelectorAll('.header-nav button, nav button').forEach(b=>b.classList.remove('active-nav'));btn.classList.add('active-nav');}
+function searchProducts(q){
+  const all=loadP();
+  const filtered=q?all.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())||p.brand.toLowerCase().includes(q.toLowerCase())):all;
+  const grid=document.getElementById('productsGrid');
+  if(!filtered.length){grid.innerHTML=`<div class="empty-grid"><span class="eicon">🔍</span><p>Sin resultados para "${q}"</p></div>`;return;}
+  grid.innerHTML=filtered.map(p=>{
+    const hd=p.salePrice&&p.salePrice<p.price;
+    const pct=hd?Math.round((1-p.salePrice/p.price)*100):0;
+    const badge=p.badge==='sale'&&hd?`<span class="pbadge sale">${pct}% OFF</span>`:p.badge==='new'?`<span class="pbadge new">New</span>`:'';
+    const ph=hd?`<span class="off">$${p.salePrice.toFixed(2)}</span> <span class="orig">$${p.price.toFixed(2)}</span>`:`$${p.price.toFixed(2)}`;
+    return `<div class="pcard" onclick="openDetail('${p.id}')"><div class="pcard-img">${badge}<img src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=60'"/></div><p class="pcard-brand">${p.brand}</p><p class="pcard-name">${p.name}</p><p class="pcard-price">${ph}</p></div>`;
+  }).join('');
+}
+function openWhatsApp(){
+  try{const s=JSON.parse(localStorage.getItem('gos_settings')||'null');const wa=s&&s.wa?s.wa:'+51999999999';window.open('https://wa.me/'+wa.replace(/\D/g,''),'_blank');}catch(e){}
+}
+// HEADER HELPERS
+function setActiveNav(btn){document.querySelectorAll('.header-nav button, nav button').forEach(b=>b.classList.remove('active-nav'));btn.classList.add('active-nav');}
+function searchProducts(q){
+  const all=loadP();
+  const filtered=q?all.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())||p.brand.toLowerCase().includes(q.toLowerCase())):all;
+  const grid=document.getElementById('productsGrid');
+  if(!filtered.length){grid.innerHTML=`<div class="empty-grid"><span class="eicon">🔍</span><p>Sin resultados para "${q}"</p></div>`;return;}
+  grid.innerHTML=filtered.map(p=>{
+    const hd=p.salePrice&&p.salePrice<p.price;
+    const pct=hd?Math.round((1-p.salePrice/p.price)*100):0;
+    const badge=p.badge==='sale'&&hd?`<span class="pbadge sale">${pct}% OFF</span>`:p.badge==='new'?`<span class="pbadge new">New</span>`:'';
+    const ph=hd?`<span class="off">$${p.salePrice.toFixed(2)}</span> <span class="orig">$${p.price.toFixed(2)}</span>`:`$${p.price.toFixed(2)}`;
+    return `<div class="pcard" onclick="openDetail('${p.id}')"><div class="pcard-img">${badge}<img src="${p.image}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=60'"/></div><p class="pcard-brand">${p.brand}</p><p class="pcard-name">${p.name}</p><p class="pcard-price">${ph}</p></div>`;
+  }).join('');
+}
+function openWhatsApp(){
+  try{const s=JSON.parse(localStorage.getItem('gos_settings')||'null');const wa=s&&s.wa?s.wa:'+51999999999';window.open('https://wa.me/'+wa.replace(/\D/g,''),'_blank');}catch(e){}
+}
 // TOAST
 function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast'+(type?' '+type:'')+' show';setTimeout(()=>el.classList.remove('show'),2500);}
 
